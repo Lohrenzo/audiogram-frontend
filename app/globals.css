@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 35, 30, 80;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  /* background: linear-gradient(
+      -90deg,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb)); */
+    background-image: linear-gradient(40deg, #080810f2, #000000ee), url("../public/img/headphones-mic.jpg");
+    background-position: center;
+    background-repeat: repeat;
+    background-size: contain;
+
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Input Number Start */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+/* Input Number End */
+
+/* Scroll Bar Start */
+/* width */
+::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  /* background: #f1f1f1; */
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #454370af;
+  border-radius: 15px;
+  transition: all ease-in-out 0.3s;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #39375ead;
+  /* background: #080810; */
+}
+
+
+.display-cards::-webkit-scrollbar, .sidebar::-webkit-scrollbar {
+  height: 0.3em;
+  /* height: 1em; */
+  /* width: 0em; */
+}
+
+/* Dark Mode Switch Style Start */
+.switch {
+  position: relative;
+  height: 1.5rem;
+  width: 3rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 9999px;
+  background-color: #212931ac;
+  transition: all .3s ease;
+}
+
+.switch:checked {
+  background-color: #476687;
+}
+
+.switch::before {
+  position: absolute;
+  content: "";
+  left: calc(1.5rem - 1.5rem);
+  top: calc(1.5rem - 1.5rem);
+  display: block;
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+  border: 1px solid #476687df;
+  border-radius: 9999px;
+  background-color: #c7c7c7;
+  /* box-shadow: 0 3px 6px rgba(100, 116, 139, 0.327); */
+  transition: all .3s ease;
+}
+
+.switch:hover::before {
+  box-shadow: 0 0 0px 6px rgba(0, 0, 0, 0.373)
+}
+
+.switch:checked:hover::before {
+  /* box-shadow: 0 0 0px 6px rgba(72, 102, 236, 0.15) */
+  box-shadow: 0 0 0px 6px rgba(0, 0, 0, 0.373)
+}
+
+.switch:checked:before {
+  transform: translateX(100%);
+  border-color: #1c2936df;
+  background-color: #0c1218ec;
+}
+/* Dark Mode Switch Style End */
