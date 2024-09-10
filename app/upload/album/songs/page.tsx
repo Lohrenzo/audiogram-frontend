@@ -48,7 +48,7 @@ export default function Songs4Album() {
       // Fetch genres only when the session is authenticated and available
       fetchGenres();
     }
-  }, [status, session]);
+  }, [fetchGenres, status, session]);
 
   const handleNumberChange = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,21 +75,21 @@ export default function Songs4Album() {
 
   return (
     <main className="w-full pe-3 overflow-y-auto">
-      <h2 className="mb-3 capitalize">{albumName}</h2>
-      {!showForms ? (
+      <h2 className="mb-3 capitalize">{ albumName }</h2>
+      { !showForms ? (
         <div>
-          <form onSubmit={handleNumberChange}>
+          <form onSubmit={ handleNumberChange }>
             <label htmlFor="numberOfSongs">Number of Songs in Album: </label>
             <select
               className="text-black rounded-lg bg-slate-400 placeholder:text-black/50 p-2 mb-5"
               name="numberOfSongs"
               id="numberOfSongs"
             >
-              {[...Array(9).keys()].map((n) => (
-                <option key={n + 1} value={n + 1}>
-                  {n + 1}
+              { [...Array(9).keys()].map((n) => (
+                <option key={ n + 1 } value={ n + 1 }>
+                  { n + 1 }
                 </option>
-              ))}
+              )) }
             </select>
             <br />
             <button
@@ -102,18 +102,18 @@ export default function Songs4Album() {
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4">
-          {[...Array(numberOfSongs)].map((_, index) => (
+          { [...Array(numberOfSongs)].map((_, index) => (
             <div
               className="relative shadow-md shadow-slate-900/50 rounded-lg p-4 mb-5 bg-black/30"
-              key={index}
+              key={ index }
             >
               <Form
-                index={index}
-                genres={genres}
-                jwt={jwt}
-                username={username}
-                albumName={albumName}
-                // cover={cover}
+                index={ index }
+                genres={ genres }
+                jwt={ jwt }
+                username={ username }
+                albumName={ albumName }
+              // cover={cover}
               />
               {/* <h3>Song {index + 1}</h3>
               <form onSubmit={handleSubmit}>
@@ -178,10 +178,10 @@ export default function Songs4Album() {
                 </button>
               </form> */}
             </div>
-          ))}
+          )) }
           <Link href="/dashboard">Complete</Link>
         </div>
-      )}
+      ) }
     </main>
   );
 }

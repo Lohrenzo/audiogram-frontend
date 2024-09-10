@@ -5,7 +5,7 @@ import playIcon from "../../public/img/icons/play.png";
 
 import SongsQueue from "./songsQueue";
 
-export default function rightSide() {
+export default function RightSide() {
   const { data: session } = useSession();
   const pathname = usePathname();
   // const items = Array.from({ length: 15 });

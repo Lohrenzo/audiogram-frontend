@@ -19,7 +19,7 @@ type Props = {
   time: any;
 };
 
-export default function listItem({
+export default function ListItem({
   id,
   title,
   audioFile,

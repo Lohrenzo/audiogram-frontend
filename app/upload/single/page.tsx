@@ -43,7 +43,7 @@ function CreateSinglePage() {
       // Fetch genres only when the session is authenticated and available
       fetchGenres();
     }
-  }, [status, session]);
+  }, [fetchGenres, status, session]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,7 +65,7 @@ function CreateSinglePage() {
   return (
     <main className="flex flex-col items-center justify-center gap-2 backdrop-blur-md overflow-y-auto h-screen w-full">
       <h3 className="uppercase font-extrabold mb-2">Upload New Single</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={ handleSubmit }>
         <label htmlFor="title">Title: </label>
         <br />
         <input
@@ -88,37 +88,37 @@ function CreateSinglePage() {
           required
         />
         <br />
-        <label htmlFor={`audio`}>Audio File: </label>
+        <label htmlFor={ `audio` }>Audio File: </label>
         <br />
         <input
           className="text-black cursor-pointer w-full p-2 rounded-lg bg-slate-400 mb-5"
           type="file"
           name="audio"
-          id={`audio`}
+          id={ `audio` }
           required
         />
         <br />
-        <label htmlFor={`cover`}>Single Cover: </label>
+        <label htmlFor={ `cover` }>Single Cover: </label>
         <br />
         <input
           className="text-black cursor-pointer w-full p-2 rounded-lg bg-slate-400 mb-5"
           type="file"
           name="cover"
-          id={`cover`}
+          id={ `cover` }
           required
         />
         <br />
-        <label htmlFor={`genre`}>Genre: </label>
+        <label htmlFor={ `genre` }>Genre: </label>
         <br />
         <select
           className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
           name="genre"
-          id={`genre`}
+          id={ `genre` }
         >
-          {genres && genres.length > 0 ? (
+          { genres && genres.length > 0 ? (
             genres.map((genre, genreIndex) => (
-              <option key={genreIndex} value={genre.title}>
-                {genre.title}
+              <option key={ genreIndex } value={ genre.title }>
+                { genre.title }
               </option>
             ))
           ) : (
@@ -127,12 +127,12 @@ function CreateSinglePage() {
               <option value="amapiano">Amapiano</option>
               <option value="hip-hop">Hip-Hop</option>
             </>
-          )}
+          ) }
         </select>
         <button
           className="text-white p-2 rounded-lg border w-full text-center mb-5"
           type="submit"
-          // disabled={}
+        // disabled={}
         >
           Create
         </button>

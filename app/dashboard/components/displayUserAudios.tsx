@@ -4,6 +4,7 @@
 import getUserAudios from "@/app/lib/getUserAudios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
 import { SlOptions } from "react-icons/sl";
 
@@ -40,13 +41,13 @@ export default function DisplayUserAudios() {
         <h1>Your Songs</h1>
         <p className="mb-2 bg-slate-600 rounded-md p-px"></p>
         <ul className="flex items-start justify-center overflow-x-hidden overflow-y-auto py-2 gap-x-4 h-full w-full">
-          {loading ? (
+          { loading ? (
             <p className="min-w-full h-[100%]">Loading...</p>
           ) : error ? (
-            <p className="min-w-full h-[190px] text-red-500">{error}</p>
+            <p className="min-w-full h-[190px] text-red-500">{ error }</p>
           ) : (
             <>
-              {audios && audios.length > 0 ? (
+              { audios && audios.length > 0 ? (
                 <div className="grid grid-cols-1 w-full">
                   <div className="grid grid-cols-4 items-center place-items-start w-full gap-1">
                     <p className="text-left col-span-2 w-full">Title</p>
@@ -54,29 +55,31 @@ export default function DisplayUserAudios() {
                     <p></p>
                   </div>
                   <div className="*:border-b *:border-[#45437086] *:pb-1 overflow-x-hidden overflow-y-auto grid grid-cols-1 gap-y-2 place-items-start p-1 w-full h-fit max-h-[87vh]">
-                    {audios.map((audio: Song) => (
+                    { audios.map((audio: Song) => (
                       <div
-                        key={audio.id}
+                        key={ audio.id }
                         className="grid grid-cols-4 items-center place-items-start w-full gap-1 hover:scale-[0.98] duration-200 transition-all"
                       >
                         <div className="col-span-2 flex gap-x-3 flex-nowrap flex-row items-center justify-start w-full">
-                          <img
-                            src={audio.cover || "https://placehold.co/400"}
+                          <Image
+                            src={ audio.cover || "https://placehold.co/400" }
                             className=" object-cover object-center rounded-md size-[50px]"
-                            alt={`${audio.title} cover`}
+                            alt={ `${audio.title} cover` }
+                            width={ 50 }
+                            height={ 50 }
                           />
-                          <p>{audio.title}</p>
+                          <p>{ audio.title }</p>
                         </div>
                         <p>
-                          {new Date(audio.released)
+                          { new Date(audio.released)
                             .getDate()
                             .toString()
-                            .padStart(2, "0")}
+                            .padStart(2, "0") }
                           /
-                          {(new Date(audio.released).getMonth() + 1)
+                          { (new Date(audio.released).getMonth() + 1)
                             .toString()
-                            .padStart(2, "0")}
-                          /{new Date(audio.released).getFullYear()}
+                            .padStart(2, "0") }
+                          /{ new Date(audio.released).getFullYear() }
                         </p>
                         <div className="flex w-full items-center justify-center gap-x-3 text-sm">
                           <SlOptions />
@@ -94,14 +97,14 @@ export default function DisplayUserAudios() {
                       </Link> */}
                         </div>
                       </div>
-                    ))}
+                    )) }
                   </div>
                 </div>
               ) : (
                 <p className="min-w-full h-[100%]">No Song Found !</p>
-              )}
+              ) }
             </>
-          )}
+          ) }
         </ul>
       </div>
     </section>

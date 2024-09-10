@@ -91,6 +91,7 @@ export default function Audios() {
           <ul className="grid grid-cols-1 w-full p-2 border-t border-slate-800">
             { songs.map((song: Song) => (
               <ListItem
+                key={ song.id }
                 id={ song.id }
                 title={ song.title }
                 src={ song.cover }

@@ -5,7 +5,7 @@ import { useAudioStore } from "../store/store";
 
 import { IoChevronDownOutline, IoChevronUpOutline } from "react-icons/io5";
 
-export default function songsQueue() {
+export default function SongsQueue() {
   const { queue } = useAudioStore();
   return (
     <div>
