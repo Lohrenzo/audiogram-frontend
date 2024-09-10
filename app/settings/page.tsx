@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
-export default function page() {
+export default function SettingsPage() {
   const { data: session } = useSession();
   const [isEditing, setIsEditing] = useState(false);
 
