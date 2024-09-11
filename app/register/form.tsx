@@ -4,79 +4,9 @@ import SubmitButton from "../components/submitButton";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useForm } from "react-hook-form";
-// import * as z from "zod";
-
-// import { Button } from "@/components/ui/button";
-// import {
-//   Form,
-//   FormControl,
-//   FormDescription,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormMessage,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
-// import { toast } from "@/components/ui/use-toast";
-
-// const FormSchema = z.object({
-//   username: z.string().min(2, {
-//     message: "Username must be at least 2 characters.",
-//   }),
-//   password: z.string().min(6, {
-//     message: "Password must be at least 6 characters.",
-//   }),
-// });
-
-// type FormData = z.infer<typeof FormSchema>;
-
 export default function Form() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
-
-  //   const form = useForm({
-  //     resolver: zodResolver(FormSchema),
-  //     defaultValues: {
-  //       username: "",
-  //       password: "",
-  //     },
-  //   });
-
-  // type RegisterFormData = {
-  //   username: string;
-  //   password1: string;
-  //   password2: string;
-  // };
-
-  // const onSubmit = async (data: RegisterFormData) => {
-  //   console.log("Submitting form", data);
-
-  //   const { username, password1, password2 } = data;
-
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.NEXTAUTH_BACKEND_URL}auth/register`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({ username, password1, password2 }),
-  //       }
-  //     );
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     // Process response here
-  //     console.log("Registration Successful", response);
-  //     //   toast({ title: "Registration Successful" });
-  //   } catch (error: any) {
-  //     console.error("Registration Failed:", error);
-  //     //   toast({ title: "Registration Failed", description: error.message });
-  //   }
-  // };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,7 +22,7 @@ export default function Form() {
       last_name: formData.get("last_name"),
       password1: formData.get("password1"),
       password2: formData.get("password2"),
-      is_artist: formData.get("isArtist"),
+      is_artist: formData.get("is_artist"),
       dob: formData.get("dob"),
       bio: formData.get("bio"),
       register: true, // This flag indicates registration instead of login
@@ -109,7 +39,7 @@ export default function Form() {
       // Redirect or do something else
 
       // Redirect or do something else
-      if (session?.user?.isArtist) {
+      if (session?.user?.is_artist) {
         window.location.href = "/dashboard";
       } else {
         window.location.href = "/audios";
@@ -120,8 +50,7 @@ export default function Form() {
   return (
     <form
       className="grid grid-cols-1"
-      onSubmit={handleSubmit}
-      // action={formAction}
+      onSubmit={ handleSubmit }
     >
       <input
         className="text-black p-2"
@@ -178,19 +107,19 @@ export default function Form() {
       ></textarea>
       <br />
       <div className="flex flex-row gap-x-4">
-        <label htmlFor="isArtist">Are you a music artist?:</label>
+        <label htmlFor="is_artist">Are you a music artist?:</label>
         <input
           className="text-black"
           type="checkbox"
-          name="isArtist"
-          id="isArtist"
+          name="is_artist"
+          id="is_artist"
         />
       </div>
       <br />
       <label htmlFor="dob">Date of Birth:</label>
       <input className="text-black p-1" type="date" name="dob" id="dob" />
       <br />
-      <SubmitButton content="Signup" loading={loading} />
+      <SubmitButton content="Signup" loading={ loading } />
     </form>
   );
 }
