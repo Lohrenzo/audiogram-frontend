@@ -43,7 +43,7 @@ function CreateSinglePage() {
       // Fetch genres only when the session is authenticated and available
       fetchGenres();
     }
-  }, [fetchGenres, status, session]);
+  }, [status, session]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

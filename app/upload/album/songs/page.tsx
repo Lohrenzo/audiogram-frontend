@@ -48,7 +48,7 @@ export default function Songs4Album() {
       // Fetch genres only when the session is authenticated and available
       fetchGenres();
     }
-  }, [fetchGenres, status, session]);
+  }, [status, session]);
 
   const handleNumberChange = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
