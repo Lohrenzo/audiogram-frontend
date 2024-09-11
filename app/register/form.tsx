@@ -42,7 +42,7 @@ export default function Form() {
       if (session?.user?.is_artist) {
         window.location.href = "/dashboard";
       } else {
-        window.location.href = "/audios";
+        window.location.href = "/audio";
       }
     }
   };

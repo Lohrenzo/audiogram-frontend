@@ -19,36 +19,36 @@ export default function Songs4Album() {
   const [numberOfSongs, setNumberOfSongs] = useState(1);
   const [showForms, setShowForms] = useState(false);
 
-  async function fetchGenres() {
-    if (!jwt) return; // Ensure JWT is available
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL}api/genre`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-
-      console.log("session: ", session);
-      const data = await res.json();
-      setGenres(data);
-      console.log(genres);
-    } catch (error) {
-      console.error("Fetching genre failed: ", error);
-      throw new Error("Failed to fetch genres!!");
-    }
-  }
-
   useEffect(() => {
+    async function fetchGenres() {
+      if (!jwt) return; // Ensure JWT is available
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL}api/genre`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${jwt}`,
+            },
+          }
+        );
+
+        console.log("session: ", session);
+        const data = await res.json();
+        setGenres(data);
+        console.log(genres);
+      } catch (error) {
+        console.error("Fetching genre failed: ", error);
+        throw new Error("Failed to fetch genres!!");
+      }
+    }
+
     if (status === "authenticated") {
       setUsername(session?.user.username);
       // Fetch genres only when the session is authenticated and available
       fetchGenres();
     }
-  }, [status, session]);
+  }, [status, session, jwt]);
 
   const handleNumberChange = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

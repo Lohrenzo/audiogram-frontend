@@ -29,6 +29,7 @@ import { useEffect, useState } from "react";
 
 // zustand
 import { useIsSidebarOpenStore } from "../store/store";
+import TransitionLink from "./transitionLink";
 
 export default function Sidebar() {
   const { data: session } = useSession();
@@ -59,8 +60,8 @@ export default function Sidebar() {
             className={ `relative sidebar rounded-lg w-full h-full overflow-x-hidden overflow-y-auto flex flex-col gap-y-6 items-start justify-start text-sm border border-slate-800 shadow-[#33305daa] bg-black/25 backdrop-blur-lg p-4` }
           >
             <div className="flex flex-row items-center justify-between w-full">
-              <Link
-                href="/audios"
+              <TransitionLink
+                href="/audio"
                 className="flex flex-row items-center gap-x-2"
               >
                 <div className="bg-[#476687e9] rounded-full p-2 md:w-10 md:h-10 h-6 w-6">
@@ -75,7 +76,7 @@ export default function Sidebar() {
                     AudioGram
                   </h1>
                 ) }
-              </Link>
+              </TransitionLink>
             </div>
             {/* {isSidebarOpen && <Search />} */ }
             {/* <div className="border-t pt-2 border-gray-700 w-full *:mb-1">
@@ -103,25 +104,25 @@ export default function Sidebar() {
                     { isSidebarOpen && <p className="text-lg">Upload</p> }
                   </button>
                   <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
-                    <Link
+                    <TransitionLink
                       className="py-3 px-2 flex flex-row flex-nowrap items-center justify-start text-left gap-x-2"
                       href="/dashboard"
                     >
                       <MdSpaceDashboard size={ 25 } />
                       { isSidebarOpen && <p className="text-lg">Dashboard</p> }
-                    </Link>
+                    </TransitionLink>
                   </button>
                 </>
               ) }
 
               <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
-                <Link
+                <TransitionLink
                   className="py-3 px-2 flex flex-row flex-nowrap items-center justify-start text-left gap-x-2"
                   href="/settings"
                 >
                   <IoMdSettings size={ 25 } />
                   { isSidebarOpen && <p className="text-lg">Settings</p> }
-                </Link>
+                </TransitionLink>
               </button>
 
               <button
@@ -156,20 +157,20 @@ export default function Sidebar() {
                   <IoCloseCircle className="" size={ 40 } />
                 </button>
                 <div className="flex flex-row gap-3 items-center justify-center">
-                  <Link
+                  <TransitionLink
                     onClick={ () => setUploadPopUp(false) }
                     href="/upload/album"
                     className="border border-blue-400 rounded-lg p-4 hover:bg-blue-400 hover:text-white text-blue-400 duration-200 ease-in-out transition-all hover:scale-110"
                   >
                     Album
-                  </Link>
-                  <Link
+                  </TransitionLink>
+                  <TransitionLink
                     onClick={ () => setUploadPopUp(false) }
                     href="/upload/single"
                     className="border border-violet-500 rounded-lg p-4 hover:bg-violet-500 hover:text-white text-violet-500 duration-200 ease-in-out transition-all hover:scale-110"
                   >
                     Single
-                  </Link>
+                  </TransitionLink>
                 </div>
               </div>
             </section>

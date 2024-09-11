@@ -32,21 +32,27 @@ export default function CreateAlbumPage() {
   };
 
   return (
-    <main>
-      <h2>Upload Album Page</h2>
-      <div>
-        <form onSubmit={handleSubmit}>
+    <main className="flex flex-col items-center justify-center gap-2 backdrop-blur-md overflow-y-auto h-screen w-full">
+      <h3 className="uppercase font-extrabold mb-2">Create A New Album</h3>
+      <div className="">
+        <form onSubmit={ handleSubmit }>
+          <label htmlFor="title">Title: </label>
+          <br />
           <input
-            className="text-black rounded-lg bg-slate-400 placeholder:text-black/50 p-2 mb-5"
+            className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
             type="text"
             name="title"
+            id="title"
             placeholder="Title"
             required
           />
           <br />
-          <input
-            className="text-black rounded-lg bg-slate-400 placeholder:text-black/50 p-2 mb-5"
-            type="text"
+
+          <label htmlFor="description">Description: </label>
+          <br />
+          <textarea
+            className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
+            rows={ 4 }
             name="description"
             placeholder="Description"
             required
@@ -70,7 +76,6 @@ export default function CreateAlbumPage() {
             type="file"
             name="cover"
             id="cover"
-            // placeholder="Username"
             required
           />
           <br />

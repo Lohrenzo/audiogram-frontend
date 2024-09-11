@@ -26,6 +26,7 @@ type Album = {
   title: string;
   description: string;
   artist: string;
+  audios: Song[];
   cover: string;
   released: string;
 };

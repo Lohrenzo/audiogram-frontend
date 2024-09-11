@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import TransitionLink from "./components/transitionLink";
 
 export default async function Home() {
   return (
@@ -10,18 +10,12 @@ export default async function Home() {
           Discover and share <br /> your music with the <br /> world
         </p>
         <div className="flex items-center justify-between gap-4 text-sm">
-          {/* <Link
+          <TransitionLink
             className="flex flex-row place-items-center flex-nowrap gap-x-3 bg-[#080810] shadow-inner shadow-[#45437086] text-[#ffffff] hover:text-[#9393d9] hover:scale-105 duration-300 transition-all p-4 rounded-lg"
-            href="/dashboard"
-          >
-            <FaArrowLeftLong /> Share Your Music
-          </Link> */}
-          <Link
-            className="flex flex-row place-items-center flex-nowrap gap-x-3 bg-[#080810] shadow-inner shadow-[#45437086] text-[#ffffff] hover:text-[#9393d9] hover:scale-105 duration-300 transition-all p-4 rounded-lg"
-            href="/dashboard"
+            href="/login"
           >
             Get Started <FaArrowRightLong />
-          </Link>
+          </TransitionLink>
         </div>
       </div>
     </main>

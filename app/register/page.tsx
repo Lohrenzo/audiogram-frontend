@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 import Form from "./form";
-import Link from "next/link";
+import TransitionLink from "../components/transitionLink";
 
 export default async function RegisterPage({
   searchParams,
@@ -26,12 +26,12 @@ export default async function RegisterPage({
       </div>
       <p className="my-2">
         Already have an account?
-        <Link
+        <TransitionLink
           href="/login"
           className="pl-2 duration-150 transition-all ease-in-out hover:underline capitalize text-[#345cb8] font-bold"
         >
           Login now!
-        </Link>
+        </TransitionLink>
       </p>
     </section>
   );

@@ -30,7 +30,7 @@ export default async function RootLayout({
           className={`${cutiveMono.className} relative flex flex-row max-h-screen overflow-hidden`}
         >
           {sessionData?.user && <Sidebar />}
-          <main className="min-w-[60vw] max-w-[71vw]">{children}</main>
+          <main id="main-view" className="min-w-[60vw] max-w-[71vw]">{children}</main>
           {sessionData?.user && <RightSide />}
         </body>
       </Provider>

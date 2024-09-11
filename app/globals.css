@@ -17,6 +17,7 @@
 }
 
 body {
+  user-select: none;
   color: rgb(var(--foreground-rgb));
   /* background: linear-gradient(
       -90deg,
@@ -83,6 +84,22 @@ input[type=number] {
   /* height: 1em; */
   /* width: 0em; */
 }
+
+#main-view {
+  /* transition-property: opacity, background, transform, filter; */
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  transition-duration: 500ms;
+}
+
+/* Page Transition Start */
+.page-transition {
+  opacity: 0;
+  background: #000000;
+  transform: translateY(40px);
+  filter: blur(12px);
+}
+/* Page Transition End */
 
 /* Dark Mode Switch Style Start */
 .switch {

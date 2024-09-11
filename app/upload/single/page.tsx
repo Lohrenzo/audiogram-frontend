@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
 // import { useRouter } from "next/navigation";
 import createAudio from "@/app/lib/createAudio";
@@ -13,8 +13,8 @@ function CreateSinglePage() {
   // const jwt = session?.access;
   // const username = session?.user.username;
 
-  async function fetchGenres() {
-    if (!jwt) return; // Ensure JWT is available
+  const fetchGenres = useCallback(async () => {
+    if (!jwt) return; // Ensure jwt is available
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL}api/genre`,
@@ -25,16 +25,13 @@ function CreateSinglePage() {
           },
         }
       );
-
-      console.log("session: ", session);
       const data = await res.json();
       setGenres(data);
-      console.log(genres);
     } catch (error) {
       console.error("Fetching genre failed: ", error);
       throw new Error("Failed to fetch genres!!");
     }
-  }
+  }, [jwt]);
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -43,7 +40,7 @@ function CreateSinglePage() {
       // Fetch genres only when the session is authenticated and available
       fetchGenres();
     }
-  }, [status, session]);
+  }, [status, session, fetchGenres]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

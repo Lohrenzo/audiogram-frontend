@@ -4,7 +4,7 @@ export const config = {
   // specify the route you want to protect
   matcher: [
     "/dashboard/:path*",
-    "/audios/:path*",
+    "/audio/:path*",
     "/upload/:path*",
     "/settings/:path*",
   ],

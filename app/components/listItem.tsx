@@ -8,6 +8,7 @@ import playImage from "../../public/img/icons/play.png";
 import pauseImage from "../../public/img/icons/pause.png";
 import { SlOptions } from "react-icons/sl";
 import { useState } from "react";
+import TransitionLink from "./transitionLink";
 
 type Props = {
   id: number;
@@ -56,7 +57,7 @@ export default function ListItem({
   }
 
   return (
-    <li key={ id } className="relative flex flex-row justify-between items-center gap-x-3 hover:scale-[1.02] duration-200 transition-all">
+    <li key={ id } className="relative flex flex-row justify-between items-center gap-x-3 hover:scale-[1.02] duration-200 transition-all even:bg-slate-50">
       <div className="flex flex-row justify-start items-center gap-x-3 w-[60%]">
         <Image
           src={ src }
@@ -67,7 +68,7 @@ export default function ListItem({
           loading="lazy"
         />
         <div className="flex flex-col">
-          <div className="w-full font-bold capitalize">{ title }</div>
+          <TransitionLink href={ `/audio/${id}` } className="w-full font-bold capitalize">{ title }</TransitionLink>
           <div className="text-sm opacity-50">{ artist }</div>
         </div>
       </div>
@@ -103,7 +104,7 @@ export default function ListItem({
 
       { optionsPop &&
         <>
-          <div className="absolute right-[2.4rem] top-[-1rem] rounded-lg bg-white/15 backdrop-blur px-1 py-2">
+          <div className="absolute right-[2.4rem] top-[-1rem] rounded-lg bg-white/15 backdrop-blur px-1 py-2 z-50">
             <p className="p-2 cursor-pointer hover:bg-black/40" onClick={ addToQueue }>Add To Queue</p>
             <p className="p-2 cursor-pointer hover:bg-black/40" onClick={ addToPlaylist }>Add To Playlist</p>
           </div>

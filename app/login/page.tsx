@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Form from "./form";
-import Link from "next/link";
+import TransitionLink from "../components/transitionLink";
 
 export default async function LoginPage() {
   const session = await getServerSession();
@@ -21,12 +21,12 @@ export default async function LoginPage() {
       </div>
       <p className="mt-2">
         Dont have an account?
-        <Link
+        <TransitionLink
           href="/register"
           className="pl-2 duration-150 transition-all ease-in-out hover:underline capitalize text-[#345cb8] font-bold"
         >
           Create one now!
-        </Link>
+        </TransitionLink>
       </p>
     </section>
   );

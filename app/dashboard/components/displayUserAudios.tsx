@@ -7,6 +7,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
 import { SlOptions } from "react-icons/sl";
+import humanizeDate from "@/app/lib/humanizeDate";
 
 export default function DisplayUserAudios() {
   const { data: session, status } = useSession();
@@ -49,7 +50,7 @@ export default function DisplayUserAudios() {
             <>
               { audios && audios.length > 0 ? (
                 <div className="grid grid-cols-1 w-full">
-                  <div className="grid grid-cols-4 items-center place-items-start w-full gap-1">
+                  <div className="grid grid-cols-4 items-center place-items-start w-full gap-1 text-sm">
                     <p className="text-left col-span-2 w-full">Title</p>
                     <p>Release Date</p>
                     <p></p>
@@ -68,18 +69,10 @@ export default function DisplayUserAudios() {
                             width={ 50 }
                             height={ 50 }
                           />
-                          <p>{ audio.title }</p>
+                          <p className="text-sm">{ audio.title }</p>
                         </div>
-                        <p>
-                          { new Date(audio.released)
-                            .getDate()
-                            .toString()
-                            .padStart(2, "0") }
-                          /
-                          { (new Date(audio.released).getMonth() + 1)
-                            .toString()
-                            .padStart(2, "0") }
-                          /{ new Date(audio.released).getFullYear() }
+                        <p className="text-xs">
+                          { humanizeDate(audio.released) }
                         </p>
                         <div className="flex w-full items-center justify-center gap-x-3 text-sm">
                           <SlOptions />

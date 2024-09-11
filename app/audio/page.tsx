@@ -5,7 +5,7 @@ import Unauthorized from "../unauthorized";
 import { Suspense, useEffect, useRef, useState } from "react";
 import Loading from "../loading";
 
-import getAllSongs from "../lib/getAllSongs";
+import getAllAudios from "../lib/getAllAudios";
 import ListItem from "../components/listItem";
 import { redirect } from "next/navigation";
 import Image from "next/image";
@@ -34,7 +34,7 @@ export default function Audios() {
     if (status === "authenticated" && session?.user) {
       (async () => {
         try {
-          const fetchedSongs: Song[] = await getAllSongs(session.access);
+          const fetchedSongs: Song[] = await getAllAudios(session.access);
           setSongs(fetchedSongs);
         } catch (error) {
           setError(error);

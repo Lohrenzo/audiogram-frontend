@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import TransitionLink from "./transitionLink";
+import humanizeDate from "../lib/humanizeDate";
 
 type Props = {
   id: number;
@@ -11,14 +13,16 @@ type Props = {
 };
 
 export default function Card({ id, title, date, src, type, artist }: Props) {
+  console.log("card id: ", id);
+
   return (
     <li
       key={ id }
       className="shadow-[#2d2a5494] bg-[#000000da] backdrop-blur flex flex-row justify-start items-start gap-x-1 rounded-lg hover:scale-95 duration-200 transition-all"
     >
-      <Link
+      <TransitionLink
         className="flex flex-col border-slate-500 rounded-md w-[130px]"
-        href={ `/songs/${id}` }
+        href={ type === "album" ? `/album/${id}` : `/audio/${id}` }
       >
         <Image
           src={ src }
@@ -34,13 +38,14 @@ export default function Card({ id, title, date, src, type, artist }: Props) {
           </p>
           { date && (
             <p className="text-[0.4rem]">
-              Date: { new Date(date).getDate().toString().padStart(2, "0") }/
+              {humanizeDate(date)}
+              {/* Date: { new Date(date).getDate().toString().padStart(2, "0") }/
               { (new Date(date).getMonth() + 1).toString().padStart(2, "0") }/
-              { new Date(date).getFullYear() }
+              { new Date(date).getFullYear() } */}
             </p>
           ) }
         </div>
-      </Link>
+      </TransitionLink>
     </li>
   );
 }

@@ -1,6 +1,6 @@
 import { axiosAuth } from "./axios";
 
-export default async function getAllSongs(jwt: string | undefined) {
+export default async function getAllAudios(jwt: string | undefined) {
   try {
     const res = await axiosAuth.get("api/audio");
 
