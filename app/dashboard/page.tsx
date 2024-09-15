@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { Suspense } from "react";
 import Link from "next/link";
 import LineChart from "../components/Charts/lineChart";
 import DisplayAlbums from "../components/displayAlbums";
@@ -17,8 +18,7 @@ export default function Dashboard() {
     if (session?.user?.is_artist) {
       return (
         <main
-          className={ `${isSidebarOpen ? "w-[60vw]" : "w-[71vw]"
-            } transition-all ease-in-out duration-200 h-screen overflow-y-hidden overflow-x-hidden p-2` }
+          className={ `overflow-y-hidden overflow-x-hidden p-2` }
         >
           <div className="grid grid-cols-2 gap-3 h-full place-items-start">
             <div className="grid grid-cols-1 gap-y-6 h-full w-full">

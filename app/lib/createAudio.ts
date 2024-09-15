@@ -1,5 +1,5 @@
 export default async function createAudio(
-  audio: FormData,
+  audioData: FormData,
   jwt: string | undefined
 ) {
   const res = await fetch(
@@ -9,7 +9,7 @@ export default async function createAudio(
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
-      body: audio,
+      body: audioData,
     }
   );
 

@@ -53,8 +53,8 @@ export default function Sidebar() {
     } else {
       return (
         <section
-          className={ `${!isSidebarOpen ? "w-[9vw]" : "w-[20vw]"
-            } p-2 min-w-[7.4rem] max-w-[22vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
+          className={ `${!isSidebarOpen ? "lg:w-[9vw] md:w-[8vw] w-[5vw]" : "lg:w-[20vw] md:w-[20vw] w-[20vw]"
+            } p-2 min-w-[7.4rem] lg:max-w-[22vw] md:max-w-[25vw] max-w-[30vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
         >
           <div
             className={ `relative sidebar rounded-lg w-full h-full overflow-x-hidden overflow-y-auto flex flex-col gap-y-6 items-start justify-start text-sm border border-slate-800 shadow-[#33305daa] bg-black/25 backdrop-blur-lg p-4` }

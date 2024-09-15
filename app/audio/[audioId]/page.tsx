@@ -62,8 +62,7 @@ export default function AudioDetails({ params: { audioId } }: Params) {
 
     return (
         <main
-            className={ `${isSidebarOpen ? "w-[60vw]" : "w-[71vw]"
-                } transition-all ease-in-out duration-200 flex h-screen flex-col items-center justify-start p-2` }
+            className={ `flex flex-col items-center justify-start p-2` }
         >
             <div className="flex flex-col gap-0 w-full h-full overflow-hidden">
                 <div className="grid grid-cols-1 gap-4 relative">

@@ -15,8 +15,8 @@ export default function RightSide() {
       return null;
     } else {
       return (
-        <section className="fixed right-0 top-0 w-[20vw] h-screen p-2">
-          <div className="p-2">
+        <section className="absolute right-0 left-0 bottom-0 z-50 grid md:hidden p-2">
+          {/* <div className="p-2">
             <h3 className="capitalize mb-0">genres</h3>
             <div className="flex h-[30vh] items-center justify-start flex-wrap gap-1">
               <p className="border border-slate-800 rounded-lg p-2 bg-black/40 backdrop-blur-md">
@@ -41,7 +41,7 @@ export default function RightSide() {
                 Drill
               </p>
             </div>
-          </div>
+          </div> */}
 
           <SongsQueue />
         </section>

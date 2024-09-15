@@ -1,3 +1,4 @@
+import SubmitButton from "@/app/components/submitButton";
 import createAudio from "@/app/lib/createAudio";
 import { FormEvent, useState } from "react";
 
@@ -18,11 +19,13 @@ export default function Form({
   // cover,
   albumName,
 }: // handleSubmit
-Props) {
+  Props) {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData(e.currentTarget);
     formData.set("artist", username || ""); // Ensure artist is set in form data
     formData.set("album", albumName || "");
@@ -37,88 +40,82 @@ Props) {
     } catch (error) {
       console.error("Creating audio failed: ", error);
       alert("Failed to create audio! Please try again.");
+      setLoading(false);
     }
   };
 
   return (
     <>
-      {submitted && (
+      { submitted && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center rounded-lg z-20 bg-black/75 backdrop-blur-md">
           Added
         </div>
-      )}
-      <h3>Song {index + 1}</h3>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor={`title_${index}`}>Title: </label>
-        <br />
+      ) }
+      <h3>Song { index + 1 }</h3>
+      <form className="md:w-[60%] w-[80%]" onSubmit={ handleSubmit }>
+        <label className="text-gray-400" htmlFor={ `title_${index}` }>Title: </label>
         <input
-          className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65 mb-5"
           type="text"
           name="title"
-          id={`title_${index}`}
+          id={ `title_${index}` }
           placeholder="Title"
           required
         />
-        <br />
-        <label htmlFor={`producer_${index}`}>Producer: </label>
-        <br />
+
+        <label className="text-gray-400" htmlFor={ `producer_${index}` }>Producer: </label>
         <input
-          className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65 mb-5"
           type="text"
           name="producer"
-          id={`producer_${index}`}
+          id={ `producer_${index}` }
           placeholder="Producer"
           required
         />
-        <br />
-        <label htmlFor={`audio_${index}`}>Audio File: </label>
-        <br />
+
+        <label className="text-gray-400" htmlFor={ `audio_${index}` }>Audio File: </label>
         <input
-          className="text-black cursor-pointer w-full p-2 rounded-lg bg-slate-400 mb-5"
+          className="cursor-pointer border bg-white placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65 block w-full text-sm text-slate-500
+              file:cursor-pointer file:mr-4 file:py-2 file:px-3
+              file: file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-violet-50 file:text-[#345cb8]
+              hover:file:bg-violet-100 mb-5"
           type="file"
           name="audio"
-          id={`audio_${index}`}
+          id={ `audio_${index}` }
           required
         />
-        <br />
-        <label htmlFor={`cover`}>Single Cover: </label>
-        <br />
+
+        <label className="text-gray-400" htmlFor={ `cover` }>Single Cover: </label>
         <input
-          className="text-black cursor-pointer w-full p-2 rounded-lg bg-slate-400 mb-5"
+          className="cursor-pointer border bg-white placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65 block w-full text-sm text-slate-500
+              file:cursor-pointer file:mr-4 file:py-2 file:px-3
+              file: file:rounded-full file:border-0
+              file:text-sm file:font-semibold
+              file:bg-violet-50 file:text-[#345cb8]
+              hover:file:bg-violet-100 mb-5"
           type="file"
           name="cover"
-          id={`cover`}
+          id={ `cover` }
           required
         />
-        <br />
-        <label htmlFor={`genre_${index}`}>Genre: </label>
-        <br />
+
+        <label className="text-gray-400" htmlFor={ `genre_${index}` }>Genre: </label>
         <select
-          className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65 mb-5"
           name="genre"
-          id={`genre_${index}`}
+          id={ `genre_${index}` }
         >
-          {genres && genres.length > 0 ? (
+          { genres && genres.length > 0 && (
             genres.map((genre, genreIndex) => (
-              <option key={genreIndex} value={genre.title}>
-                {genre.title}
+              <option key={ genreIndex } value={ genre.title }>
+                { genre.title }
               </option>
             ))
-          ) : (
-            <>
-              <option value="afrobeats">Afrobeats</option>
-              <option value="amapiano">Amapiano</option>
-              <option value="hip-hop">Hip-Hop</option>
-            </>
-          )}
+          ) }
         </select>
-        <button
-          className="text-white p-2 rounded-lg border w-full text-center mb-5"
-          type="submit"
-          disabled={submitted}
-        >
-          Create
-        </button>
+        <SubmitButton loading={ loading } content="Create" />
       </form>
     </>
   );

@@ -5,6 +5,9 @@ import createAudio from "@/app/lib/createAudio";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "./form";
 import Link from "next/link";
+import Unauthorized from "@/app/unauthorized";
+import NotLoggedIn from "@/app/notLoggedIn";
+import TransitionLink from "@/app/components/transitionLink";
 
 export default function Songs4Album() {
   const { data: session, status } = useSession();
@@ -58,130 +61,57 @@ export default function Songs4Album() {
     setShowForms(true);
   };
 
-  //   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-  //     e.preventDefault();
-  //     const formData = new FormData(e.currentTarget);
-  //     formData.set("artist", username || ""); // Ensure artist is set in form data
-  //     formData.set("album", albumName || "");
-
-  //     try {
-  //       await createAudio(formData, jwt);
-  //       //   window.location.href = "/dashboard"; // Redirect on success
-  //     } catch (error) {
-  //       console.error("Creating album failed: ", error);
-  //       alert("Failed to create album. Please try again.");
-  //     }
-  //   };
-
-  return (
-    <main className="w-full pe-3 overflow-y-auto">
-      <h2 className="mb-3 capitalize">{ albumName }</h2>
-      { !showForms ? (
-        <div>
-          <form onSubmit={ handleNumberChange }>
-            <label htmlFor="numberOfSongs">Number of Songs in Album: </label>
-            <select
-              className="text-black rounded-lg bg-slate-400 placeholder:text-black/50 p-2 mb-5"
-              name="numberOfSongs"
-              id="numberOfSongs"
-            >
-              { [...Array(9).keys()].map((n) => (
-                <option key={ n + 1 } value={ n + 1 }>
-                  { n + 1 }
-                </option>
-              )) }
-            </select>
-            <br />
-            <button
-              className="text-white p-2 rounded-lg border w-full text-center mb-5"
-              type="submit"
-            >
-              Go
-            </button>
-          </form>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-4">
-          { [...Array(numberOfSongs)].map((_, index) => (
-            <div
-              className="relative shadow-md shadow-slate-900/50 rounded-lg p-4 mb-5 bg-black/30"
-              key={ index }
-            >
-              <Form
-                index={ index }
-                genres={ genres }
-                jwt={ jwt }
-                username={ username }
-                albumName={ albumName }
-              // cover={cover}
-              />
-              {/* <h3>Song {index + 1}</h3>
-              <form onSubmit={handleSubmit}>
-                <label htmlFor={`title_${index}`}>Title: </label>
-                <br />
-                <input
-                  className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
-                  type="text"
-                  name="title"
-                  id={`title_${index}`}
-                  placeholder="Title"
-                  required
-                />
-                <br />
-                <label htmlFor={`producer_${index}`}>Producer: </label>
-                <br />
-                <input
-                  className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
-                  type="text"
-                  name="producer"
-                  id={`producer_${index}`}
-                  placeholder="Producer"
-                  required
-                />
-                <br />
-                <label htmlFor={`audio_${index}`}>Audio File: </label>
-                <br />
-                <input
-                  className="text-black cursor-pointer w-full p-2 rounded-lg bg-slate-400 mb-5"
-                  type="file"
-                  name="audio"
-                  id={`audio_${index}`}
-                  required
-                />
-                <br />
-                <label htmlFor={`genre_${index}`}>Genre: </label>
-                <br />
+  if (session) {
+    if (session?.user?.is_artist) {
+      return (
+        <main className="w-full pe-3 overflow-y-auto">
+          <h2 className="mb-3 capitalize">{ albumName }</h2>
+          { !showForms ? (
+            <div>
+              <form onSubmit={ handleNumberChange }>
+                <label htmlFor="numberOfSongs">Number of Songs in Album: </label>
                 <select
-                  className="text-black rounded-lg w-full bg-slate-400 placeholder:text-black/50 p-2 mb-5"
-                  name="genre"
-                  id={`genre_${index}`}
+                  className="text-black rounded-lg bg-slate-400 placeholder:text-black/50 p-2 mb-5"
+                  name="numberOfSongs"
+                  id="numberOfSongs"
                 >
-                  {genres && genres.length > 0 ? (
-                    genres.map((genre, genreIndex) => (
-                      <option key={genreIndex} value={genre.title}>
-                        {genre.title}
-                      </option>
-                    ))
-                  ) : (
-                    <>
-                      <option value="afrobeats">Afrobeats</option>
-                      <option value="amapiano">Amapiano</option>
-                      <option value="hip-hop">Hip-Hop</option>
-                    </>
-                  )}
+                  { [...Array(9).keys()].map((n) => (
+                    <option key={ n + 1 } value={ n + 1 }>
+                      { n + 1 }
+                    </option>
+                  )) }
                 </select>
+                <br />
                 <button
                   className="text-white p-2 rounded-lg border w-full text-center mb-5"
                   type="submit"
                 >
-                  Create
+                  Go
                 </button>
-              </form> */}
+              </form>
             </div>
-          )) }
-          <Link href="/dashboard">Complete</Link>
-        </div>
-      ) }
-    </main>
-  );
+          ) : (
+            <div className="grid grid-cols-2 gap-4">
+              { [...Array(numberOfSongs)].map((_, index) => (
+                <div
+                  className="relative shadow-md shadow-slate-900/50 rounded-lg p-4 mb-5 bg-black/30"
+                  key={ index }
+                >
+                  <Form
+                    index={ index }
+                    genres={ genres }
+                    jwt={ jwt }
+                    username={ username }
+                    albumName={ albumName }
+                  />
+                </div>
+              )) }
+              <TransitionLink className="text-center" href="/dashboard">Complete</TransitionLink>
+            </div>
+          ) }
+        </main>
+      );
+    } else return <Unauthorized />
+  }
+  // else return <NotLoggedIn />
 }

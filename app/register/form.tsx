@@ -4,122 +4,197 @@ import SubmitButton from "../components/submitButton";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
+// Icons
+import { FaEye, FaEyeSlash } from "react-icons/fa6";
+
+import AlertPrompt from "../components/alertPrompt";
+
 export default function Form() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
+  const [passwordType, setPasswordType] = useState("password")
+  const [password2Type, setPassword2Type] = useState("password")
+  const [error, setError] = useState(false)
+
+  const togglePasswordType = () => {
+    if (passwordType === "password") {
+      setPasswordType("text");
+    } else {
+      setPasswordType("password");
+    }
+  }
+
+  const togglePassword2Type = () => {
+    if (password2Type === "password") {
+      setPassword2Type("text");
+    } else {
+      setPassword2Type("password");
+    }
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData(e.currentTarget);
 
-    // Attempt to register
-    const response = await signIn("credentials", {
-      redirect: false,
-      username: formData.get("username"),
-      email: formData.get("email"),
-      first_name: formData.get("first_name"),
-      last_name: formData.get("last_name"),
-      password1: formData.get("password1"),
-      password2: formData.get("password2"),
-      is_artist: formData.get("is_artist"),
-      dob: formData.get("dob"),
-      bio: formData.get("bio"),
-      register: true, // This flag indicates registration instead of login
-    });
-
-    setLoading(false);
-
-    if (response?.error) {
-      // Handle registration error (e.g., show a toast notification)
-      console.error("Registration failed:", response.error);
+    // Convert the boolean checkbox for 'is_artist' correctly
+    if (formData.get('is_artist') === 'on') {
+      formData.set('is_artist', 'true');
     } else {
-      // Registration successful, handle accordingly
-      console.log("Registration successful:", response);
-      // Redirect or do something else
+      formData.set('is_artist', 'false');
+    }
 
-      // Redirect or do something else
-      if (session?.user?.is_artist) {
-        window.location.href = "/dashboard";
+    try {
+      // Attempt to register
+      // const response = await signIn("credentials", {
+      //   redirect: false,
+      //   username: formData.get("username"),
+      //   email: formData.get("email"),
+      //   first_name: formData.get("first_name"),
+      //   last_name: formData.get("last_name"),
+      //   password1: formData.get("password1"),
+      //   password2: formData.get("password2"),
+      //   is_artist: formData.get("is_artist"),
+      //   image: formData.get("image"),
+      //   dob: formData.get("dob"),
+      //   bio: formData.get("bio"),
+      //   register: true, // This flag indicates registration instead of login
+      // });
+
+      const response = await signIn('credentials', {
+        redirect: false,
+        formData,
+        // ...Object.fromEntries(formData), // Convert FormData into an object and pass as params
+        register: true, // Indicating registration
+      });
+
+      if (response?.error) {
+        // Handle registration error (e.g., show a toast notification)
+        console.error("Registration failed:", response.error);
+        setError(true);
+        setLoading(false);
       } else {
-        window.location.href = "/audio";
+        // Registration successful, handle accordingly
+        console.log("Registration successful:", response);
+        // Redirect or do something else
+
+        // Redirect or do something else
+        if (session?.user?.is_artist) {
+          window.location.href = "/dashboard";
+        } else {
+          window.location.href = "/audio";
+        }
+        // setLoading(false);
       }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setError(true);
+      setLoading(false);
     }
   };
 
   return (
-    <form
-      className="grid grid-cols-1"
-      onSubmit={ handleSubmit }
-    >
-      <input
-        className="text-black p-2"
-        type="email"
-        name="email"
-        placeholder="Email Address"
-        required
-      />
-      <br />
-      <input
-        className="text-black p-2"
-        type="text"
-        name="username"
-        placeholder="Username"
-        required
-      />
-      <br />
-      <input
-        className="text-black p-2"
-        type="text"
-        name="first_name"
-        placeholder="First Name"
-        required
-      />
-      <br />
-      <input
-        className="text-black p-2"
-        type="text"
-        name="last_name"
-        placeholder="Last Name"
-      />
-      <br />
-      <input
-        className="text-black p-2"
-        type="password"
-        name="password1"
-        placeholder="Password"
-        required
-      />
-      <br />
-      <input
-        className="text-black p-2"
-        type="password"
-        name="password2"
-        placeholder="Confirm Password"
-        required
-      />
-      <br />
-      <textarea
-        className="text-black p-2"
-        placeholder="Bio"
-        name="bio"
-        id="bio"
-      ></textarea>
-      <br />
-      <div className="flex flex-row gap-x-4">
-        <label htmlFor="is_artist">Are you a music artist?:</label>
+    <>
+      { error && <AlertPrompt setError={ setError } message="Registration Failed" /> }
+      <form
+        className="grid grid-cols-1"
+        onSubmit={ handleSubmit }
+      >
         <input
-          className="text-black"
-          type="checkbox"
-          name="is_artist"
-          id="is_artist"
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+          type="email"
+          name="email"
+          placeholder="Email Address*"
+          required
         />
-      </div>
-      <br />
-      <label htmlFor="dob">Date of Birth:</label>
-      <input className="text-black p-1" type="date" name="dob" id="dob" />
-      <br />
-      <SubmitButton content="Signup" loading={ loading } />
-    </form>
+        <br />
+        <input
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+          type="text"
+          name="username"
+          placeholder="Username*"
+          required
+        />
+        <br />
+        <input
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+          type="text"
+          name="first_name"
+          placeholder="First Name*"
+          required
+        />
+        <br />
+        <input
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+          type="text"
+          name="last_name"
+          placeholder="Last Name"
+        />
+        <br />
+        <div className="w-full relative">
+          <input
+            className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+            type={ passwordType }
+            name="password1"
+            placeholder="Password*"
+            required
+          />
+          <div onClick={ togglePasswordType } className="cursor-pointer absolute top-0 bottom-0 right-0 p-2 grid place-items-center bg-white text-black">
+            { passwordType === "password" ? <FaEye /> : <FaEyeSlash /> }
+          </div>
+        </div>
+        <br />
+        <div className="w-full relative">
+          <input
+            className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+            type={ password2Type }
+            name="password2"
+            placeholder="Confirm Password*"
+            required
+          />
+          <div onClick={ togglePassword2Type } className="cursor-pointer absolute top-0 bottom-0 right-0 p-2 grid place-items-center bg-white text-black">
+            { password2Type === "password" ? <FaEye /> : <FaEyeSlash /> }
+          </div>
+        </div>
+        <br />
+        <textarea
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+          placeholder="Bio"
+          name="bio"
+          id="bio"
+        ></textarea>
+        <br />
+        <label className="text-slate-300" htmlFor="dob">Date of Birth*:</label>
+        <input
+          className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65"
+          type="date" name="dob" id="dob"
+        />
+        <br />
+        <label className="text-slate-300" htmlFor="image">Profile Picture: </label>
+        <input
+          className="cursor-pointer border bg-white placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65 block w-full text-sm text-slate-500
+        file:cursor-pointer file:mr-4 file:py-2 file:px-3
+        file: file:rounded-full file:border-0
+        file:text-sm file:font-semibold
+        file:bg-violet-50 file:text-[#345cb8]
+        hover:file:bg-violet-100"
+          type="file"
+          name="image"
+          id="image"
+        />
+        <br />
+        <div className="flex flex-row items-center justify-between gap-x-4">
+          <label className="text-slate-300" htmlFor="is_artist">Are you a music artist?:</label>
+          <input
+            className="text-black checked:bg-blue-950"
+            type="checkbox"
+            name="is_artist"
+            id="is_artist"
+          />
+        </div>
+        <br />
+        <SubmitButton content="Signup" loading={ loading } />
+      </form>
+    </>
   );
 }

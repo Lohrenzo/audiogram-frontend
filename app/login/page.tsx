@@ -19,8 +19,8 @@ export default async function LoginPage() {
           <Form />
         </div>
       </div>
-      <p className="mt-2">
-        Dont have an account?
+      <p className="mt-2 text-center">
+        Dont have an account? <br className=" sm:hidden inline-block" />
         <TransitionLink
           href="/register"
           className="pl-2 duration-150 transition-all ease-in-out hover:underline capitalize text-[#345cb8] font-bold"

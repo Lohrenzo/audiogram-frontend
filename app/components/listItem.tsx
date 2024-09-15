@@ -57,7 +57,7 @@ export default function ListItem({
   }
 
   return (
-    <li key={ id } className="relative flex flex-row justify-between items-center gap-x-3 hover:scale-[1.02] duration-200 transition-all even:bg-slate-50">
+    <li key={ id } className="p-2 relative flex flex-row justify-between items-center gap-x-3 hover:scale-[1.02] duration-200 transition-all even:bg-slate-700/10">
       <div className="flex flex-row justify-start items-center gap-x-3 w-[60%]">
         <Image
           src={ src }

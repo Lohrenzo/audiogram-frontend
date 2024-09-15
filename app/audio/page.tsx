@@ -14,6 +14,7 @@ import Image from "next/image";
 import img1 from "../../public/img/yellow2.png";
 import img2 from "../../public/img/blue.png";
 import img3 from "../../public/img/red2.png";
+import { FaFaceGrinStars } from "react-icons/fa6";
 
 // zustand
 import { useIsSidebarOpenStore } from "../store/store";
@@ -45,7 +46,7 @@ export default function Audios() {
     }
   }, [status, session]);
 
-  if (status === "loading") return <Loading />;
+  // if (status === "loading") return <Loading />;
 
   if (!session) {
     redirect("/");
@@ -57,12 +58,11 @@ export default function Audios() {
 
   return (
     <main
-      className={ `${isSidebarOpen ? "w-[60vw]" : "w-[71vw]"
-        } transition-all ease-in-out duration-200 flex h-screen flex-col items-center justify-start p-2` }
+      className={ `flex flex-col items-center justify-start p-2` }
     >
       <div className="w-full text-center">
-        <h1 className="w-full text-center mb-2">
-          Welcome, { session.user?.username }!
+        <h1 className="w-full text-center mb-2 flex flex-row items-center justify-center gap-3">
+          Welcome, { session.user?.username } <FaFaceGrinStars />
         </h1>
       </div>
       <div className="grid grid-cols-3 gap-x-3 w-full items-center">

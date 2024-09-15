@@ -36,7 +36,7 @@ export default function TransitionLink({
 
         router.push(href);
 
-        await sleep(500);
+        await sleep(1100);
 
         mainView?.classList.remove("page-transition");
     }

@@ -6,16 +6,16 @@ const BASE_URL = process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL;
 
 const axioss = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 const axiosAuth = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  // },
 });
 
 // Axios request interceptor to attach the Authorization header

@@ -44,21 +44,52 @@ const handler = NextAuth({
           const isRegister = req.body?.register;
 
           let response;
+
           if (isRegister) {
             // Registration process
-            const registrationData = {
-              username: credentials?.username,
-              email: req.body?.email,
-              first_name: req.body?.first_name,
-              last_name: req.body?.last_name,
-              password1: credentials?.password,
-              password2: req.body?.password2,
-              is_artist: req.body?.is_artist === "on", // checkbox returns 'on' if checked
-              dob: req.body?.dob,
-              bio: req.body?.bio,
-            };
+            // const registrationData = {
+            //   username: credentials?.username,
+            //   email: req.body?.email,
+            //   first_name: req.body?.first_name,
+            //   last_name: req.body?.last_name,
+            //   password1: credentials?.password,
+            //   password2: req.body?.password2,
+            //   image: req.body?.image,
+            //   is_artist: req.body?.is_artist === "on", // checkbox returns 'on' if checked
+            //   dob: req.body?.dob,
+            //   bio: req.body?.bio,
+            // };
 
-            response = await axioss.post("auth/register/", registrationData);
+            // Registration process: Prepare FormData for multipart request
+            // const formData = new FormData();
+
+            // formData.append("username", credentials?.username as string);
+            // formData.append("email", req.body?.email);
+            // formData.append("first_name", req.body?.first_name);
+            // formData.append("last_name", req.body?.last_name);
+            // formData.append("password1", credentials?.password as string);
+            // formData.append("password2", req.body?.password2);
+            // formData.append(
+            //   "is_artist",
+            //   req.body?.is_artist === "true" ? "true" : "false"
+            // );
+            // formData.append("dob", req.body?.dob);
+            // formData.append("bio", req.body?.bio);
+
+            // if (req.body?.image) {
+            //   formData.append("image", req.body.image, req.body.image.name); // Handle image
+            // }
+
+            const formData = req.body?.formData;
+
+            // response = await axioss.post("auth/register/", registrationData);
+
+            // Axios request with multipart data
+            response = await axioss.post("auth/register/", formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
           } else {
             // Login process
             const loginData = {
@@ -66,7 +97,11 @@ const handler = NextAuth({
               password: credentials?.password,
             };
 
-            response = await axioss.post("auth/login/", loginData);
+            response = await axioss.post("auth/login/", loginData, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
           }
 
           if (response.status !== 200 && response.status !== 201) {
@@ -83,7 +118,7 @@ const handler = NextAuth({
             };
           } else return null;
         } catch (error) {
-          // console.error("Authorization error!", error);
+          console.error("Authorization error!", error);
           return null;
         }
       },
@@ -96,21 +131,6 @@ const handler = NextAuth({
     async jwt({ user, token }) {
       // Initial sign-in: store user data and tokens in JWT
       if (user) {
-        // token = {
-        //   ...token,
-        //   id: user.id,
-        //   username: user.username,
-        //   isArtist: user.is_artist,
-        //   first_name: user.first_name,
-        //   last_name: user.last_name,
-        //   is_artist: user.is_artist,
-        //   bio: user.bio,
-        //   dob: user.dob,
-        //   image: user.image,
-        //   access: user.access,
-        //   refresh: user.refresh,
-        //   expires: user.expires,
-        // };
         token = {
           id: user.id as number, // Explicitly cast to number
           username: user.username as string,

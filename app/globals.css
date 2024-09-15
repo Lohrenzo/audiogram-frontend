@@ -38,6 +38,10 @@ body {
   }
 }
 
+input, textarea, select, option {
+  width: 100%;
+}
+
 /* Input Number Start */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -81,7 +85,6 @@ input[type=number] {
 
 .display-cards::-webkit-scrollbar, .sidebar::-webkit-scrollbar {
   height: 0.3em;
-  /* height: 1em; */
   /* width: 0em; */
 }
 
