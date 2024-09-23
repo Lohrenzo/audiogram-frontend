@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Audiogram",
-  description: "The music is within you.",
+  title: "Audio Details",
+  description: "Details about the song.",
 };
 
 export default function Layout({

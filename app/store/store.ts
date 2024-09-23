@@ -7,6 +7,13 @@ type SidebarStore = {
   closeSidebar: () => void;
 };
 
+export const useIsSidebarOpenStore = create<SidebarStore>()((set) => ({
+  isSidebarOpen: true,
+  setIsSidebarOpen: (isSidebarOpen: boolean) => set({ isSidebarOpen }),
+  openSidebar: () => set({ isSidebarOpen: true }),
+  closeSidebar: () => set({ isSidebarOpen: false }),
+}));
+
 type AudioStore = {
   audioRef: HTMLAudioElement | null; // Store audio element
   volume: number;
@@ -20,13 +27,6 @@ type AudioStore = {
   queue: any[];
   enQueue: (song: any) => void;
 };
-
-export const useIsSidebarOpenStore = create<SidebarStore>()((set) => ({
-  isSidebarOpen: true,
-  setIsSidebarOpen: (isSidebarOpen: boolean) => set({ isSidebarOpen }),
-  openSidebar: () => set({ isSidebarOpen: true }),
-  closeSidebar: () => set({ isSidebarOpen: false }),
-}));
 
 export const useAudioStore = create<AudioStore>()((set, get) => ({
   audioRef: null,

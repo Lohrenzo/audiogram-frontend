@@ -7,7 +7,7 @@ import { useAudioStore } from "../store/store";
 import playImage from "../../public/img/icons/play.png";
 import pauseImage from "../../public/img/icons/pause.png";
 import { SlOptions } from "react-icons/sl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TransitionLink from "./transitionLink";
 
 type Props = {
@@ -32,8 +32,29 @@ export default function ListItem({
   const { isPlaying, togglePause, togglePlay, enQueue, nowPlaying } = useAudioStore();
   const [optionsPop, setOptionsPop] = useState(false);
 
+  // Ref for the options div to track clicks outside of it
+  const optionsRef = useRef<HTMLDivElement>(null);
+
   // Determine if the current song is playing
   const isCurrentPlaying = nowPlaying?.id === id && isPlaying;
+
+  // Effect to handle clicks outside the options div
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // If the click is outside the options div, hide the options
+      if (optionsRef.current && !optionsRef.current.contains(event.target as Node)) {
+        setOptionsPop(false);
+      }
+    };
+
+    // Add the event listener for the entire document
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Clean up the event listener on component unmount
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   function secondsToTime(seconds: any) {
     //const hours = Math.floor(seconds / 3600);
@@ -104,9 +125,11 @@ export default function ListItem({
 
       { optionsPop &&
         <>
-          <div className="absolute right-[2.4rem] top-[-1rem] rounded-lg bg-white/15 backdrop-blur px-1 py-2 z-50">
-            <p className="p-2 cursor-pointer hover:bg-black/40" onClick={ addToQueue }>Add To Queue</p>
-            <p className="p-2 cursor-pointer hover:bg-black/40" onClick={ addToPlaylist }>Add To Playlist</p>
+          <div
+            ref={ optionsRef } // Ref to the options div
+            className="absolute right-3 top-1 rounded-lg bg-white/15 backdrop-blur px-1 py-2 z-50">
+            <p className="px-2 cursor-pointer hover:bg-black/40" onClick={ addToQueue }>Add To Queue</p>
+            <p className="px-2 cursor-pointer hover:bg-black/40" onClick={ addToPlaylist }>Add To Playlist</p>
           </div>
         </>
       }

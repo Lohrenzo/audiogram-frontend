@@ -4,16 +4,18 @@ import SubmitButton from "../components/submitButton";
 import { signIn } from "next-auth/react";
 import { useSession } from "next-auth/react";
 
+import { toast } from 'sonner';
+
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
-import AlertPrompt from "../components/alertPrompt";
+// import AlertPrompt from "../components/alertPrompt";
 
 export default function Form() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password")
-  const [error, setError] = useState(false)
+  // const [error, setError] = useState(false)
 
   const togglePasswordType = () => {
     if (passwordType === "password") {
@@ -37,18 +39,20 @@ export default function Form() {
 
     if (result?.error) {
       // Handle sign-in error (e.g., show a toast notification)
-      setError(true);
+      // setError(true);
       setLoading(false);
+      toast.error("Login Failed!!");
       console.error("Login failed:", result.error);
     } else {
       // Login successful, handle accordingly
+      toast.success("Login Successful!!");
       console.log("Login successful:", result);
 
       // Redirect or do something else
       if (session?.user?.is_artist) {
         window.location.href = "/dashboard";
       } else {
-        window.location.href = "/audio";
+        window.location.href = "/";
       }
       // setLoading(false);
     }
@@ -57,7 +61,7 @@ export default function Form() {
 
   return (
     <>
-      { error && <AlertPrompt setError={setError} message="Login Failed" />}
+      {/* { error && <AlertPrompt setError={ setError } message="Login Failed" /> } */ }
       <form
         className="grid grid-cols-1"
         onSubmit={ handleSubmit }

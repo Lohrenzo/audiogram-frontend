@@ -2,6 +2,8 @@ import SubmitButton from "@/app/components/submitButton";
 import createAudio from "@/app/lib/createAudio";
 import { FormEvent, useState } from "react";
 
+import { toast } from 'sonner';
+
 type Props = {
   index: number;
   genres: Genre[] | undefined;
@@ -22,6 +24,7 @@ export default function Form({
   Props) {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,10 +35,13 @@ export default function Form({
     // formData.set("cover", cover || "");
     formData.set("status", "released");
 
+    setTitle(formData.get("title") as string);
+
     try {
       if (!jwt) alert("No Jwt Present!!"); // Ensure JWT is available
       await createAudio(formData, jwt);
       setSubmitted(true);
+      toast.success(`${title} has been added successfully to album`)
       //   window.location.href = "/dashboard"; // Redirect on success
     } catch (error) {
       console.error("Creating audio failed: ", error);
@@ -45,14 +51,14 @@ export default function Form({
   };
 
   return (
-    <>
+    <section className="w-full flex flex-col justify-start items-center">
       { submitted && (
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center rounded-lg z-20 bg-black/75 backdrop-blur-md">
-          Added
+          { title } Added Successfully
         </div>
       ) }
       <h3>Song { index + 1 }</h3>
-      <form className="md:w-[60%] w-[80%]" onSubmit={ handleSubmit }>
+      <form className="md:w-[90%] w-[80%]" onSubmit={ handleSubmit }>
         <label className="text-gray-400" htmlFor={ `title_${index}` }>Title: </label>
         <input
           className="text-black placeholder:text-black/80 p-2 focus:outline-none focus:bg-white/65 active:bg-white/65 mb-5"
@@ -107,6 +113,7 @@ export default function Form({
           name="genre"
           id={ `genre_${index}` }
         >
+          <option unselectable="on" disabled>Choose A Genre</option>
           { genres && genres.length > 0 && (
             genres.map((genre, genreIndex) => (
               <option key={ genreIndex } value={ genre.title }>
@@ -117,6 +124,6 @@ export default function Form({
         </select>
         <SubmitButton loading={ loading } content="Create" />
       </form>
-    </>
+    </section>
   );
 }

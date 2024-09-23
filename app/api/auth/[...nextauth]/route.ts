@@ -41,77 +41,32 @@ const handler = NextAuth({
       // `user` variable to the signIn() and jwt() callback
       async authorize(credentials, req) {
         try {
-          const isRegister = req.body?.register;
-
           let response;
 
-          if (isRegister) {
-            // Registration process
-            // const registrationData = {
-            //   username: credentials?.username,
-            //   email: req.body?.email,
-            //   first_name: req.body?.first_name,
-            //   last_name: req.body?.last_name,
-            //   password1: credentials?.password,
-            //   password2: req.body?.password2,
-            //   image: req.body?.image,
-            //   is_artist: req.body?.is_artist === "on", // checkbox returns 'on' if checked
-            //   dob: req.body?.dob,
-            //   bio: req.body?.bio,
-            // };
+          // Login process
+          const loginData = {
+            username: credentials?.username,
+            password: credentials?.password,
+          };
 
-            // Registration process: Prepare FormData for multipart request
-            // const formData = new FormData();
-
-            // formData.append("username", credentials?.username as string);
-            // formData.append("email", req.body?.email);
-            // formData.append("first_name", req.body?.first_name);
-            // formData.append("last_name", req.body?.last_name);
-            // formData.append("password1", credentials?.password as string);
-            // formData.append("password2", req.body?.password2);
-            // formData.append(
-            //   "is_artist",
-            //   req.body?.is_artist === "true" ? "true" : "false"
-            // );
-            // formData.append("dob", req.body?.dob);
-            // formData.append("bio", req.body?.bio);
-
-            // if (req.body?.image) {
-            //   formData.append("image", req.body.image, req.body.image.name); // Handle image
-            // }
-
-            const formData = req.body?.formData;
-
-            // response = await axioss.post("auth/register/", registrationData);
-
-            // Axios request with multipart data
-            response = await axioss.post("auth/register/", formData, {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            });
-          } else {
-            // Login process
-            const loginData = {
-              username: credentials?.username,
-              password: credentials?.password,
-            };
-
-            response = await axioss.post("auth/login/", loginData, {
+          response = await fetch(
+            `${process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL}auth/login/`,
+            {
+              method: "POST",
+              body: JSON.stringify(loginData),
               headers: {
                 "Content-Type": "application/json",
               },
-            });
-          }
+            }
+          );
 
-          if (response.status !== 200 && response.status !== 201) {
+          if (!response.ok) {
             throw new Error("Invalid response status!");
           }
 
-          const user = response.data;
+          const user = await response.json();
 
           if (user?.access) {
-            // console.log("user data: ", user);
             return {
               ...user,
               expires: getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME,
@@ -155,7 +110,7 @@ const handler = NextAuth({
             refresh: token.refresh,
           });
 
-          console.log("token: ", token);
+          console.log("Refresh token in route.ts: ", token.refresh);
           if (response.status === 200 || response.status === 201) {
             const { access, access_expiration } = response.data;
             token.access = access;
@@ -181,17 +136,6 @@ const handler = NextAuth({
 
     session({ session, token }) {
       // Pass token data to the session object
-      // session.user = {
-      //   id: token.id,
-      //   username: token.username,
-      //   // isArtist: token.isArtist,
-      //   first_name: token.first_name,
-      //   last_name: token.last_name,
-      //   is_artist: token.is_artist,
-      //   bio: token.bio,
-      //   dob: token.dob,
-      //   image: token.image,
-      // };
       session.user = {
         id: token.id as number, // Explicitly cast to number
         username: token.username as string,

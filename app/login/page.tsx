@@ -8,7 +8,7 @@ export default async function LoginPage() {
   console.log({ session });
 
   if (session) {
-    redirect("/audios");
+    redirect("/");
   }
 
   return (

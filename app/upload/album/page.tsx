@@ -8,6 +8,8 @@ import Unauthorized from "@/app/unauthorized";
 import NotLoggedIn from "@/app/notLoggedIn";
 import SubmitButton from "@/app/components/submitButton";
 
+import { toast } from 'sonner';
+
 export default function CreateAlbumPage() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,8 @@ export default function CreateAlbumPage() {
           albumName as string
         )}&cover=${encodeURIComponent(cover as string)}`
       );
+
+      toast.success(`${albumName} Created!`)
     } catch (error) {
       console.error("Creating album failed: ", error);
       alert("Failed to create album. Please try again.");
@@ -41,7 +45,7 @@ export default function CreateAlbumPage() {
   if (session) {
     if (session?.user?.is_artist) {
       return (
-        <main className="flex flex-col items-center justify-center gap-2 backdrop-blur-md overflow-y-auto h-screen w-full">
+        <main className="flex flex-col items-center justify-center gap-2 backdrop-blur-md overflow-y-auto h-[85vh] w-full">
           <h3 className="uppercase font-extrabold mb-2 text-gray-300">Create A New Album</h3>
           <form className="md:w-[60%] w-[80%]" onSubmit={ handleSubmit }>
             <label className="text-gray-400" htmlFor="title">Title: </label>

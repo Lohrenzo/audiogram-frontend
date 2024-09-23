@@ -17,7 +17,7 @@ import {
   IoIosMusicalNotes,
   IoIosAnalytics,
 } from "react-icons/io";
-import { IoHeadset, IoCloseCircle } from "react-icons/io5";
+import { IoPersonCircle, IoCloseCircle } from "react-icons/io5";
 import { MdExplore, MdSpaceDashboard } from "react-icons/md";
 import { FaCaretRight, FaAnglesDown } from "react-icons/fa6";
 import { RiDashboard3Fill } from "react-icons/ri";
@@ -48,7 +48,7 @@ export default function Sidebar() {
   // }
 
   if (session) {
-    if (pathname === "/" || pathname === "/login" || pathname === "/register") {
+    if (pathname === "/login" || pathname === "/register") {
       return null;
     } else {
       return (
@@ -61,7 +61,7 @@ export default function Sidebar() {
           >
             <div className="flex flex-row items-center justify-between w-full">
               <TransitionLink
-                href="/audio"
+                href="/"
                 className="flex flex-row items-center gap-x-2"
               >
                 <div className="bg-[#476687e9] rounded-full p-2 md:w-10 md:h-10 h-6 w-6">
@@ -118,10 +118,10 @@ export default function Sidebar() {
               <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
                 <TransitionLink
                   className="py-3 px-2 flex flex-row flex-nowrap items-center justify-start text-left gap-x-2"
-                  href="/settings"
+                  href="/profile"
                 >
-                  <IoMdSettings size={ 25 } />
-                  { isSidebarOpen && <p className="text-lg">Settings</p> }
+                  <IoPersonCircle size={ 25 } />
+                  { isSidebarOpen && <p className="text-lg capitalize">{ session.user.username }</p> }
                 </TransitionLink>
               </button>
 

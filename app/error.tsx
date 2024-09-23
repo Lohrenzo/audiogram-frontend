@@ -1,14 +1,9 @@
-"use client";
-
-import TransitionLink from "./components/transitionLink";
+"use client"
 
 export default function Error() {
   return (
-    <div className="w-full grid place-items-center font-bold">
+    <main className="flex min-h-screen w-full mx-auto flex-col items-center justify-center">
       <p className="text-center text-red-700">Something Went Wrong 😞!!!</p>
-      <TransitionLink href="/" className="text-white font-bold hover:underline">
-        Home
-      </TransitionLink>
-    </div>
+    </main>
   );
 }

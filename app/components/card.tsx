@@ -13,12 +13,11 @@ type Props = {
 };
 
 export default function Card({ id, title, date, src, type, artist }: Props) {
-  console.log("card id: ", id);
 
   return (
     <li
       key={ id }
-      className="shadow-[#2d2a5494] bg-[#000000da] backdrop-blur flex flex-row justify-start items-start gap-x-1 rounded-lg hover:scale-95 duration-200 transition-all"
+      className="w-[130px] shadow-[#2d2a5494] bg-[#000000da] backdrop-blur flex flex-row justify-start items-start gap-x-1 rounded-lg hover:scale-95 duration-200 transition-all"
     >
       <TransitionLink
         className="flex flex-col border-slate-500 rounded-md w-[130px]"
@@ -30,6 +29,7 @@ export default function Card({ id, title, date, src, type, artist }: Props) {
           width={ 180 }
           height={ 150 }
           alt={ `${title} cover` }
+          priority
         />
         <div className="p-2 max-h-[70px]">
           <h2 className="text-[0.6rem]">{ title }</h2>
@@ -38,10 +38,7 @@ export default function Card({ id, title, date, src, type, artist }: Props) {
           </p>
           { date && (
             <p className="text-[0.4rem]">
-              {humanizeDate(date)}
-              {/* Date: { new Date(date).getDate().toString().padStart(2, "0") }/
-              { (new Date(date).getMonth() + 1).toString().padStart(2, "0") }/
-              { new Date(date).getFullYear() } */}
+              { humanizeDate(date) }
             </p>
           ) }
         </div>

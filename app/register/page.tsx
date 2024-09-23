@@ -12,7 +12,7 @@ export default async function RegisterPage({
   const session = await getServerSession();
 
   if (session) {
-    const redirectUrl = searchParams.callbackUrl || "/audios";
+    const redirectUrl = searchParams.callbackUrl || "/";
     redirect(redirectUrl);
   }
 

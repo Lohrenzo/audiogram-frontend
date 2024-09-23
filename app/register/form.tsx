@@ -7,14 +7,16 @@ import { useSession } from "next-auth/react";
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa6";
 
-import AlertPrompt from "../components/alertPrompt";
+import { toast } from 'sonner';
+
+// import AlertPrompt from "../components/alertPrompt";
 
 export default function Form() {
   const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password")
   const [password2Type, setPassword2Type] = useState("password")
-  const [error, setError] = useState(false)
+  // const [error, setError] = useState(false)
 
   const togglePasswordType = () => {
     if (passwordType === "password") {
@@ -35,6 +37,7 @@ export default function Form() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+
     const formData = new FormData(e.currentTarget);
 
     // Convert the boolean checkbox for 'is_artist' correctly
@@ -44,58 +47,65 @@ export default function Form() {
       formData.set('is_artist', 'false');
     }
 
+    // Extract username and password from formData for later use in signIn
+    const username = formData.get("username") as string;
+    const password = formData.get("password1") as string;
+
     try {
       // Attempt to register
-      // const response = await signIn("credentials", {
-      //   redirect: false,
-      //   username: formData.get("username"),
-      //   email: formData.get("email"),
-      //   first_name: formData.get("first_name"),
-      //   last_name: formData.get("last_name"),
-      //   password1: formData.get("password1"),
-      //   password2: formData.get("password2"),
-      //   is_artist: formData.get("is_artist"),
-      //   image: formData.get("image"),
-      //   dob: formData.get("dob"),
-      //   bio: formData.get("bio"),
-      //   register: true, // This flag indicates registration instead of login
-      // });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL}auth/register/`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
-      const response = await signIn('credentials', {
-        redirect: false,
-        formData,
-        // ...Object.fromEntries(formData), // Convert FormData into an object and pass as params
-        register: true, // Indicating registration
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast.error("Registration Failed!!");
+        throw new Error(errorData?.detail || "Registration failed.");
+      }
+
+      const userData = await response.json();
+      console.log("Registration successful:", userData);
+
+      // Programmatically sign the user in using the returned tokens
+      const signInResponse = await signIn("credentials", {
+        redirect: false, // Avoid redirecting at this point
+        username,
+        password,
       });
 
-      if (response?.error) {
-        // Handle registration error (e.g., show a toast notification)
-        console.error("Registration failed:", response.error);
-        setError(true);
+      if (signInResponse?.error) {
+        // Handle errors during signIn (unlikely, but possible)
+        console.error("SignIn failed:", signInResponse.error);
+        toast.error("Failed to log in after registration!! Please go to login page.");
         setLoading(false);
       } else {
-        // Registration successful, handle accordingly
-        console.log("Registration successful:", response);
-        // Redirect or do something else
+        // User is now logged in, you can redirect or show a success message
+        console.log("Logged in successfully:", signInResponse);
+        toast.success("Registration and Login Successful!");
 
-        // Redirect or do something else
+        // Redirect based on user role
         if (session?.user?.is_artist) {
+          // if (userData.is_artist) {
           window.location.href = "/dashboard";
         } else {
-          window.location.href = "/audio";
+          window.location.href = "/";
         }
-        // setLoading(false);
       }
+
     } catch (error) {
       console.error("Error submitting form:", error);
-      setError(true);
+      toast.error("Registration Failed!!");
       setLoading(false);
     }
   };
 
   return (
     <>
-      { error && <AlertPrompt setError={ setError } message="Registration Failed" /> }
+      {/* { error && <AlertPrompt setError={ setError } message="Registration Failed" /> } */ }
       <form
         className="grid grid-cols-1"
         onSubmit={ handleSubmit }

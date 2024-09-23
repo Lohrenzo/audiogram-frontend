@@ -6,14 +6,15 @@ import createAudio from "@/app/lib/createAudio";
 import Unauthorized from "@/app/unauthorized";
 import NotLoggedIn from "@/app/notLoggedIn";
 import SubmitButton from "@/app/components/submitButton";
-import AlertPrompt from "@/app/components/alertPrompt";
+
+import { toast } from 'sonner';
+import Skeleton from "@/app/components/skeletons/skeleton";
 
 function CreateSinglePage() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [jwt, setJwt] = useState("");
   const [genres, setGenres] = useState<Genre[]>();
-  const [error, setError] = useState(false)
 
   const { data: session, status } = useSession();
   // const jwt = session?.access;
@@ -55,15 +56,18 @@ function CreateSinglePage() {
     formData.set("artist", username || ""); // Ensure artist is set in form data
     formData.set("status", "released");
 
+    const audioTitle = formData.get("title");
+
     try {
       if (!jwt) alert("No Jwt Present!!"); // Ensure JWT is available
       await createAudio(formData, jwt);
       // setSubmitted(true);
       window.location.href = "/dashboard"; // Redirect on success
+      toast.success(`${audioTitle} Uploaded Successfully`)
     } catch (error) {
       console.error("Creating audio failed: ", error);
       // alert("Failed to create audio! Please try again.");
-      setError(true);
+      toast.error("Upload Failed!!")
       setLoading(false);
     }
   };
@@ -71,9 +75,7 @@ function CreateSinglePage() {
   if (session) {
     if (session?.user?.is_artist) {
       return (
-        <main className="flex flex-col items-center justify-center gap-2 backdrop-blur-md overflow-y-auto h-screen w-full">
-          { error && <AlertPrompt setError={ setError } message="Upload Failed" /> }
-
+        <main className="flex flex-col items-center justify-center gap-2 backdrop-blur-md overflow-y-auto h-[85vh] w-full">
           <h3 className="uppercase font-extrabold mb-2 text-gray-300">Upload New Single</h3>
           <form className="md:w-[60%] w-[80%]" onSubmit={ handleSubmit }>
             <label className="text-gray-400" htmlFor="title">Title: </label>
@@ -130,20 +132,19 @@ function CreateSinglePage() {
               name="genre"
               id={ `genre` }
             >
-              { genres && genres.length > 0 && (
+              <option unselectable="on" disabled>Choose A Genre</option>
+              { genres && genres.length > 0 ? (
                 genres.map((genre, genreIndex) => (
                   <option key={ genreIndex } value={ genre.title }>
                     { genre.title }
                   </option>
                 ))
               )
-                // : (
-                //   <>
-                //     <option value="afrobeats">Afrobeats</option>
-                //     <option value="amapiano">Amapiano</option>
-                //     <option value="hip-hop">Hip-Hop</option>
-                //   </>
-                // )
+                : (
+                  <>
+                    <option unselectable="on" disabled><Skeleton height="100%" width="100%" variant="" /></option>
+                  </>
+                )
               }
             </select>
 
@@ -153,7 +154,7 @@ function CreateSinglePage() {
       );
     } else return <Unauthorized />
   }
-  // else return <NotLoggedIn />
+  else return <NotLoggedIn />
 
 }
 

@@ -64,7 +64,7 @@ export default function Songs4Album() {
   if (session) {
     if (session?.user?.is_artist) {
       return (
-        <main className="w-full pe-3 overflow-y-auto">
+        <main className="w-full h-[85vh] pe-3 overflow-y-auto">
           <h2 className="mb-3 capitalize">{ albumName }</h2>
           { !showForms ? (
             <div>
@@ -91,23 +91,27 @@ export default function Songs4Album() {
               </form>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
-              { [...Array(numberOfSongs)].map((_, index) => (
-                <div
-                  className="relative shadow-md shadow-slate-900/50 rounded-lg p-4 mb-5 bg-black/30"
-                  key={ index }
-                >
-                  <Form
-                    index={ index }
-                    genres={ genres }
-                    jwt={ jwt }
-                    username={ username }
-                    albumName={ albumName }
-                  />
-                </div>
-              )) }
-              <TransitionLink className="text-center" href="/dashboard">Complete</TransitionLink>
-            </div>
+            <>
+              <div className="grid grid-cols-2 gap-4">
+                { [...Array(numberOfSongs)].map((_, index) => (
+                  <div
+                    className="relative shadow-md shadow-slate-900/50 rounded-lg p-4 mb-5 bg-black/30"
+                    key={ index }
+                  >
+                    <Form
+                      index={ index }
+                      genres={ genres }
+                      jwt={ jwt }
+                      username={ username }
+                      albumName={ albumName }
+                    />
+                  </div>
+                )) }
+              </div>
+              <div className="w-full text-center">
+                <Link className="text-center hover:underline hover:scale-110 duration-200 transition-all ease-in-out" href="/dashboard">Complete</Link>
+              </div>
+            </>
           ) }
         </main>
       );
