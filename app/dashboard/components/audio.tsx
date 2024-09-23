@@ -33,7 +33,6 @@ export default function Audio({ audio }: Props) {
 
     return (
         <li
-            key={ audio.id }
             className="relative overflow-hidden grid grid-cols-4 items-center place-items-start w-full gap-1 hover:scale-[0.98] duration-200 transition-all"
         >
             <Link href={ `/audio/${audio.id}` } className="col-span-2 flex gap-x-3 flex-nowrap flex-row items-center justify-start w-full">

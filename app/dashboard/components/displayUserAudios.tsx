@@ -84,7 +84,9 @@ export default function DisplayUserAudios() {
               { audios && audios.length > 0 ? (
                 <ul className="*:border-b *:border-[#45437086] *:pb-1 overflow-x-hidden overflow-y-auto grid grid-cols-1 gap-y-2 place-items-start p-1 w-full h-fit max-h-[87vh]">
                   { audios.map((audio: Song) => (
-                    <Audio audio={ audio } />
+                    <Audio
+                      key={ audio.id }
+                      audio={ audio } />
                   )) }
                 </ul>
               ) : (
