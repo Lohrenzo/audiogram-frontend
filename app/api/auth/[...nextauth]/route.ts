@@ -3,9 +3,9 @@ import { jwtDecode, JwtPayload } from "jwt-decode";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const BACKEND_ACCESS_TOKEN_LIFETIME = 45 * 60; // 45 minutes
+const BACKEND_ACCESS_TOKEN_LIFETIME = 60 * 60; // 60 minutes
 const BACKEND_REFRESH_TOKEN_LIFETIME = 6 * 24 * 60 * 60; // 6 days
-const UPDATE_LIFETIME = 40 * 60; // 1 minute
+const UPDATE_LIFETIME = 50 * 60; // 50 minutes
 
 const getCurrentEpochTime = () => {
   return Math.floor(new Date().getTime() / 1000);

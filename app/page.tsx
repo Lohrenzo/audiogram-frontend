@@ -1,37 +1,24 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import Unauthorized from "./unauthorized";
-import { Suspense, useEffect, useRef, useState } from "react";
-import Loading from "./loading";
+import { useEffect, useState } from "react";
 
-import getAllAudios from "./lib/getAllAudios";
-import ListItem from "./components/listItem";
-import { redirect } from "next/navigation";
-import Image from "next/image";
-
-// images
-import img1 from "../public/img/yellow2.png";
-// import img2 from "../public/img/blue.png";
-// import img3 from "../public/img/red2.png";
+// Icons
 import { FaFaceGrinStars } from "react-icons/fa6";
 
-// zustand
-import { useIsSidebarOpenStore } from "./store/store";
+import getAllAudios from "./lib/getAllAudios";
+import Unauthorized from "./unauthorized";
 
+// Components
+import ListItem from "./components/listItem";
 import DisplayAlbums from "./components/displayAlbums";
 import Skeleton from "./components/skeletons/skeleton";
 
 export default function Audios() {
   const { data: session, status } = useSession();
-  // const audioRef = useRef(new Audio()); // Create a ref for the audio player
-  // const [volume, setVolume] = useState(audioRef.current.volume);
-
   const [songs, setSongs] = useState<Song[] | null>(null);
-  const [albums, setAlbums] = useState<Album[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
-  const { isSidebarOpen } = useIsSidebarOpenStore();
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
@@ -47,12 +34,6 @@ export default function Audios() {
       })();
     }
   }, [status, session]);
-
-  // if (status === "loading") return <Loading />;
-
-  // if (!session) {
-  //   redirect("/");
-  // }
 
   if (session && !session?.user) {
     return <Unauthorized />;

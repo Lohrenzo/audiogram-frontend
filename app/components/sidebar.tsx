@@ -22,30 +22,21 @@ import { MdExplore, MdSpaceDashboard } from "react-icons/md";
 import { FaCaretRight, FaAnglesDown } from "react-icons/fa6";
 import { RiDashboard3Fill } from "react-icons/ri";
 
-// import Search from "./search";
 import Image from "next/image";
 import logo from "../../public/img/wave.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // zustand
 import { useIsSidebarOpenStore } from "../store/store";
+
 import TransitionLink from "./transitionLink";
 
 export default function Sidebar() {
   const { data: session } = useSession();
-  // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [uploadPopUp, setUploadPopUp] = useState(false);
   const pathname = usePathname();
   const { isSidebarOpen, setIsSidebarOpen, openSidebar, closeSidebar } =
     useIsSidebarOpenStore();
-
-  // function openSidebar() {
-  //   setIsSidebarOpen(true);
-  // }
-
-  // function closeSidebar() {
-  //   setIsSidebarOpen(false);
-  // }
 
   if (session) {
     if (pathname === "/login" || pathname === "/register") {
@@ -54,7 +45,7 @@ export default function Sidebar() {
       return (
         <section
           className={ `${!isSidebarOpen ? "lg:w-[9vw] md:w-[8vw] w-[5vw]" : "lg:w-[20vw] md:w-[20vw] w-[20vw]"
-            } p-2 min-w-[7.4rem] lg:max-w-[22vw] md:max-w-[25vw] max-w-[30vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
+            } border p-2 min-w-[7.4rem] lg:max-w-[22vw] md:max-w-[25vw] max-w-[30vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
         >
           <div
             className={ `relative sidebar rounded-lg w-full h-full overflow-x-hidden overflow-y-auto flex flex-col gap-y-6 items-start justify-start text-sm border border-slate-800 shadow-[#33305daa] bg-black/25 backdrop-blur-lg p-4` }
@@ -62,7 +53,7 @@ export default function Sidebar() {
             <div className="flex flex-row items-center justify-between w-full">
               <TransitionLink
                 href="/"
-                className="flex flex-row items-center gap-x-2"
+                className="flex flex-row items-center justify-start gap-x-2"
               >
                 <div className="bg-[#476687e9] rounded-full p-2 md:w-10 md:h-10 h-6 w-6">
                   <Image
@@ -101,7 +92,7 @@ export default function Sidebar() {
                     className="py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white"
                   >
                     <BiArrowToTop size={ 25 } />
-                    { isSidebarOpen && <p className="text-lg">Upload</p> }
+                    { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Upload</p> }
                   </button>
                   <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
                     <TransitionLink
@@ -109,7 +100,7 @@ export default function Sidebar() {
                       href="/dashboard"
                     >
                       <MdSpaceDashboard size={ 25 } />
-                      { isSidebarOpen && <p className="text-lg">Dashboard</p> }
+                      { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm ">Dashboard</p> }
                     </TransitionLink>
                   </button>
                 </>
@@ -121,7 +112,7 @@ export default function Sidebar() {
                   href="/profile"
                 >
                   <IoPersonCircle size={ 25 } />
-                  { isSidebarOpen && <p className="text-lg capitalize">{ session.user.username }</p> }
+                  { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm capitalize">{ session.user.username }</p> }
                 </TransitionLink>
               </button>
 
@@ -131,7 +122,7 @@ export default function Sidebar() {
                 className="absolute bottom-1 py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 text-red-700"
               >
                 <BiSolidDoorOpen className="" size={ 25 } />
-                { isSidebarOpen && <p className="text-lg">Log Out</p> }
+                { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Log Out</p> }
               </button>
             </div>
           </div>

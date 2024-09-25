@@ -287,7 +287,7 @@ export default function ProfilePage() {
               />
 
               {/* <br /> */ }
-              <div className="col-span-2 mx-auto p-4 w-[30%]">
+              <div className="col-span-2 mx-auto p-4 sm:w-[30%] w-[80%]">
                 <SubmitButton content={ isUpdating ? "Submit" : `Edit Profile` } loading={ loading } />
               </div>
             </form>
@@ -318,7 +318,7 @@ export default function ProfilePage() {
                 autoComplete="off"
               />
 
-              <div className="col-span-2 mx-auto p-6 w-[30%]">
+              <div className="col-span-2 mx-auto p-6 sm:w-[30%] w-[80%]">
                 <SubmitButton content="Submit" loading={ passwordLoading } />
               </div>
             </form>

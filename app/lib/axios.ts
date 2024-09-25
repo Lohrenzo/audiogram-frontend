@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { getServerSession } from "next-auth";
 import { getSession, signIn } from "next-auth/react";
 
 const BASE_URL = process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL;
@@ -45,8 +44,6 @@ axiosAuth.interceptors.request.use(
           }
         } catch (error) {
           console.error("Error refreshing token", error);
-          // Optionally, redirect to login page or logout the user
-          // window.location.href = "/login";
           await signIn();
           throw error;
         }
