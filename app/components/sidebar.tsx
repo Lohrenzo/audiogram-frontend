@@ -46,8 +46,8 @@ export default function Sidebar() {
         <>
           <section
             // className={ `${!isSidebarOpen ? "lg:w-[9vw] md:w-[8vw] w-[5vw] md:inline-block hidden translate-x-[-40vw]" : "lg:w-[20vw] md:w-[20vw] w-[20vw] translate-x-0"
-            className={ `${!isSidebarOpen ? "left-[-18rem]" : "left-0"
-              } absolute bottom-0 md:w-[26vw] sm:w-[15vw] w-[40vw] p-2 overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[95vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
+            className={ `${!isSidebarOpen ? "md:left-[-25rem] left-[-18rem]" : "left-0"
+              } absolute bottom-0 md:w-[25vw] sm:w-[15vw] w-[40vw] p-2 overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[95vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
           // } relative p-2 min-w-[7.4rem] lg:max-w-[22vw] md:max-w-[25vw] max-w-[30vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
           >
             <div
