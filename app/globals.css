@@ -104,6 +104,14 @@ input[type=number] {
 }
 /* Page Transition End */
 
+/* Audio List Item Start */
+.audio-list-item {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+/* Audio List Item Ends */
+
+
 /* Dark Mode Switch Style Start */
 .switch {
   position: relative;

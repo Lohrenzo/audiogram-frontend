@@ -14,11 +14,13 @@ import ListItem from "./components/listItem";
 import DisplayAlbums from "./components/displayAlbums";
 import Skeleton from "./components/skeletons/skeleton";
 
-export default function Audios() {
+export default function HomePage() {
   const { data: session, status } = useSession();
   const [songs, setSongs] = useState<Song[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
+
+  const skeletonCount = 10;
 
   useEffect(() => {
     if (status === "authenticated" && session?.user) {
@@ -41,13 +43,13 @@ export default function Audios() {
 
   return (
     <main
-      className={ `flex flex-col items-center justify-start p-2 h-[85vh]` }
+      className={ `flex flex-col items-center justify-start p-2 h-[80vh]` }
     >
-      <div className="w-full text-center">
+      {/* <div className="w-full text-center">
         <h1 className="w-full text-center mb-2 flex flex-row items-center justify-center gap-3">
           Welcome{ `, ${session?.user?.username || ""}` } <FaFaceGrinStars />
         </h1>
-      </div>
+      </div> */}
 
       <div className="h-[240px] w-full">
         <DisplayAlbums fetchType="all" />
@@ -57,17 +59,15 @@ export default function Audios() {
         <h2 className="w-full my-2">{ loading ? <Skeleton width="20%" height="1rem" variant="" /> : "Featured Songs" }</h2>
         { loading ? (
           <ul className="grid grid-cols-1 gap-y-2 h-full w-full overflow-hidden p-2 border-t border-slate-800">
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
-            <Skeleton width="100%" height="50px" variant="rounded-lg" />
+            {/* Dynamically generate skeletons based on skeletonCount */ }
+            { Array.from({ length: skeletonCount }).map((_, index) => (
+              <Skeleton
+                key={ index }
+                width="100%"
+                height="50px"
+                variant="rounded-lg"
+              />
+            )) }
           </ul>
         ) : error ? (
           <p className="text-red-500">Something went wrong: { error.message }</p>
@@ -82,7 +82,7 @@ export default function Audios() {
                 artist={ song.artist }
                 type="Single"
                 audioFile={ song.audio }
-                time="00:00"
+              // time="00:00"
               />
             )) }
           </ul>

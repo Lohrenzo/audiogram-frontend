@@ -9,6 +9,7 @@ import pauseImage from "../../public/img/icons/pause.png";
 import { SlOptions } from "react-icons/sl";
 import { useEffect, useRef, useState } from "react";
 import TransitionLink from "./transitionLink";
+import secondsToTime from "../lib/secondsToTime";
 
 type Props = {
   id: number;
@@ -17,7 +18,7 @@ type Props = {
   src: string;
   type: string;
   artist: string;
-  time: any;
+  // time: any;
 };
 
 export default function ListItem({
@@ -27,10 +28,13 @@ export default function ListItem({
   src,
   type,
   artist,
-  time,
+  // time,
 }: Props) {
   const { isPlaying, togglePause, togglePlay, enQueue, nowPlaying } = useAudioStore();
   const [optionsPop, setOptionsPop] = useState(false);
+  const [duration, setDuration] = useState<string | null>(null); // State to store the audio duration
+  const audioRef = useRef<HTMLAudioElement>(null); // Ref to access the audio element
+
 
   // Ref for the options div to track clicks outside of it
   const optionsRef = useRef<HTMLDivElement>(null);
@@ -56,17 +60,40 @@ export default function ListItem({
     };
   }, []);
 
-  function secondsToTime(seconds: any) {
-    //const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = seconds % 60;
+  // Effect to load the audio metadata and get the duration
+  useEffect(() => {
+    if (audioRef.current) {
+      const audioElement = audioRef.current;
 
-    //const formattedHours = String(hours).padStart(2, "0");
-    const formattedMinutes = String(minutes).padStart(1, "0");
-    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+      // Add event listener to get the duration once the metadata is loaded
+      const handleLoadedMetadata = () => {
+        const seconds = audioElement.duration;
+        setDuration(secondsToTime(seconds)); // Set the formatted duration
+      };
 
-    return `${formattedMinutes}:${formattedSeconds}`;
-  }
+
+      audioElement.addEventListener("loadedmetadata", handleLoadedMetadata);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        audioElement.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      };
+    }
+  }, []);
+
+  // console.log("Duration:", duration)
+
+  // function secondsToTime(seconds: any) {
+  //   //const hours = Math.floor(seconds / 3600);
+  //   const minutes = Math.floor((seconds % 3600) / 60);
+  //   const remainingSeconds = seconds % 60;
+
+  //   //const formattedHours = String(hours).padStart(2, "0");
+  //   const formattedMinutes = String(minutes).padStart(1, "0");
+  //   const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+
+  //   return `${formattedMinutes}:${formattedSeconds}`;
+  // }
 
   const addToQueue = () => {
     enQueue({ id, cover: src, title, artist, audioFile })
@@ -78,8 +105,8 @@ export default function ListItem({
   }
 
   return (
-    <li key={ id } className="p-2 relative flex flex-row justify-between items-center gap-x-3 hover:scale-[1.02] duration-200 transition-all even:bg-slate-700/10">
-      <div className="flex flex-row justify-start items-center gap-x-3 w-[60%]">
+    <li key={ id } className="p-2 audio-list-item relative gap-x-3 w-full hover:scale-[1.02] duration-200 transition-all even:bg-slate-700/10">
+      <div className="flex flex-row justify-start items-center gap-x-3 w-[100%]">
         <Image
           src={ src }
           alt="Cover Image"
@@ -93,35 +120,37 @@ export default function ListItem({
           <div className="text-sm opacity-50">{ artist }</div>
         </div>
       </div>
-      <div className="">
-        <p className="">{ time }</p>
+      <div className="grid sm:grid-cols-4 grid-cols-2 items-center justify-between sm:gap-x-1 gap-x-2">
+        <p className="sm:inline-block hidden">
+          { duration || "00:00" } {/* Show duration or "00:00" */ }
+        </p>
+        <div
+          className="hover:bg-white/5 p-2 rounded-full cursor-pointer"
+          onClick={
+            isPlaying
+              ? () => togglePause()
+              : () => togglePlay({ id, cover: src, title, audioFile })
+          }
+        >
+          <Image
+            alt={ isCurrentPlaying ? "Pause" : "Play" }
+            height={ 30 }
+            width={ 30 }
+            src={ isCurrentPlaying ? pauseImage : playImage }
+            className="play"
+            loading="lazy"
+          />
+        </div>
+        <div className="sm:inline-block hidden">
+          <p className="">{ type }</p>
+        </div>
+        <div className="cursor-pointer"
+          onClick={ () => setOptionsPop(!optionsPop) }
+        >
+          <SlOptions size={ 20 } />
+        </div>
       </div>
-      <div
-        className="hover:bg-white/5 p-2 rounded-full cursor-pointer"
-        onClick={
-          isPlaying
-            ? () => togglePause()
-            : () => togglePlay({ id, cover: src, title, audioFile })
-        }
-      >
-        <Image
-          alt={ isCurrentPlaying ? "Pause" : "Play" }
-          height={ 30 }
-          width={ 30 }
-          src={ isCurrentPlaying ? pauseImage : playImage }
-          className="play"
-          loading="lazy"
-        />
-      </div>
-      <div className="">
-        <p className="">{ type }</p>
-      </div>
-      <div className="cursor-pointer"
-        onClick={ () => setOptionsPop(!optionsPop) }
-      >
-        <SlOptions size={ 20 } />
-      </div>
-      <audio src={ audioFile } />
+      <audio className="hidden" ref={ audioRef } src={ audioFile } />
 
       { optionsPop &&
         <>

@@ -60,7 +60,7 @@ export default function DisplayAlbums({ fetchType }: Props) {
   const heading = fetchType === "user" ? "Your Albums" : "Featured Albums";
 
   return (
-    <div className="p-2 border border-slate-800 shadow-[#33305daa] bg-black/40 backdrop-blur-lg rounded-lg h-[35vh] w-full">
+    <div className="p-2 border border-slate-800 shadow-[#33305daa] bg-black/40 backdrop-blur-lg rounded-lg lg:h-[35vh] w-full">
       { loading ? <Skeleton width="20%" height="1rem" variant="" />
         : <h1>{ heading }</h1>
       }

@@ -17,7 +17,7 @@ import {
   IoIosMusicalNotes,
   IoIosAnalytics,
 } from "react-icons/io";
-import { IoPersonCircle, IoCloseCircle } from "react-icons/io5";
+import { IoPersonCircle, IoCloseCircle, IoMenu } from "react-icons/io5";
 import { MdExplore, MdSpaceDashboard } from "react-icons/md";
 import { FaCaretRight, FaAnglesDown } from "react-icons/fa6";
 import { RiDashboard3Fill } from "react-icons/ri";
@@ -43,34 +43,38 @@ export default function Sidebar() {
       return null;
     } else {
       return (
-        <section
-          className={ `${!isSidebarOpen ? "lg:w-[9vw] md:w-[8vw] w-[5vw]" : "lg:w-[20vw] md:w-[20vw] w-[20vw]"
-            } border p-2 min-w-[7.4rem] lg:max-w-[22vw] md:max-w-[25vw] max-w-[30vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
-        >
-          <div
-            className={ `relative sidebar rounded-lg w-full h-full overflow-x-hidden overflow-y-auto flex flex-col gap-y-6 items-start justify-start text-sm border border-slate-800 shadow-[#33305daa] bg-black/25 backdrop-blur-lg p-4` }
+        <>
+          <section
+            // className={ `${!isSidebarOpen ? "lg:w-[9vw] md:w-[8vw] w-[5vw] md:inline-block hidden translate-x-[-40vw]" : "lg:w-[20vw] md:w-[20vw] w-[20vw] translate-x-0"
+            className={ `${!isSidebarOpen ? "left-[-18rem]" : "left-0"
+              } absolute bottom-0 md:w-[26vw] sm:w-[15vw] w-[40vw] p-2 overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[95vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
+          // } relative p-2 min-w-[7.4rem] lg:max-w-[22vw] md:max-w-[25vw] max-w-[30vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
           >
-            <div className="flex flex-row items-center justify-between w-full">
-              <TransitionLink
-                href="/"
-                className="flex flex-row items-center justify-start gap-x-2"
-              >
-                <div className="bg-[#476687e9] rounded-full p-2 md:w-10 md:h-10 h-6 w-6">
-                  <Image
-                    src={ logo }
-                    alt="Audiogram Logo"
-                    className="object-cover"
-                  />
-                </div>
-                { isSidebarOpen && (
-                  <h1 className="md:text-xl text-base text-gray-400 font-bold drop-shadow">
-                    AudioGram
-                  </h1>
-                ) }
-              </TransitionLink>
-            </div>
-            {/* {isSidebarOpen && <Search />} */ }
-            {/* <div className="border-t pt-2 border-gray-700 w-full *:mb-1">
+            <div
+              className={ `sidebar rounded-lg w-full h-full overflow-x-hidden overflow-y-auto flex flex-col gap-y-6 items-start justify-start text-sm border border-slate-800 shadow-[#33305daa] bg-black/85 backdrop-blur-lg sm:p-4 p-2` }
+            >
+              <div className="flex flex-row items-center justify-between w-full">
+                <TransitionLink
+                  href="/"
+                  className="flex flex-row items-center justify-start sm:gap-x-2 gap-x-1"
+                >
+                  <div className="bg-[#476687e9] rounded-full lg:p-2 p-1 lg:w-10 lg:h-10 md:w-7 md:h-7 h-6 w-6">
+                    <Image
+                      src={ logo }
+                      alt="Audiogram Logo"
+                      className="object-cover"
+                    />
+                  </div>
+                  { isSidebarOpen && (
+                    <h1 className="md:text-xl sm:text-lg text-sm text-gray-400 font-bold drop-shadow">
+                      AudioGram
+                    </h1>
+                  ) }
+                </TransitionLink>
+              </div>
+
+              {/* {isSidebarOpen && <Search />} */ }
+              {/* <div className="border-t pt-2 border-gray-700 w-full *:mb-1">
               <div className="py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
                 <IoIosMusicalNotes size={ 25 } />
                 { isSidebarOpen && <p className="text-lg">Liked Songs</p> }
@@ -84,58 +88,60 @@ export default function Sidebar() {
                 { isSidebarOpen && <p className="text-lg">Albums</p> }
               </div>
             </div> */}
-            <div className="border-t pt-2 border-gray-700 w-full">
-              { session.user?.is_artist && (
-                <>
-                  <button
-                    onClick={ () => setUploadPopUp(true) }
-                    className="py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white"
-                  >
-                    <BiArrowToTop size={ 25 } />
-                    { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Upload</p> }
-                  </button>
-                  <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
-                    <TransitionLink
-                      className="py-3 px-2 flex flex-row flex-nowrap items-center justify-start text-left gap-x-2"
-                      href="/dashboard"
+              <div className="border-t pt-2 grid grid-cols-1 border-gray-700 w-full">
+                { session.user?.is_artist && (
+                  <>
+                    <button
+                      onClick={ () => setUploadPopUp(true) }
+                      className="py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white"
                     >
-                      <MdSpaceDashboard size={ 25 } />
-                      { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm ">Dashboard</p> }
-                    </TransitionLink>
-                  </button>
-                </>
-              ) }
+                      <BiArrowToTop className="md:text-lg sm:text-base text-sm" />
+                      { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Upload</p> }
+                    </button>
+                    <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
+                      <TransitionLink
+                        className="py-3 px-2 flex flex-row flex-nowrap items-center justify-start text-left gap-x-2"
+                        href="/dashboard"
+                      >
+                        <MdSpaceDashboard className="md:text-lg sm:text-base text-sm" />
+                        { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm ">Dashboard</p> }
+                      </TransitionLink>
+                    </button>
+                  </>
+                ) }
 
-              <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
-                <TransitionLink
-                  className="py-3 px-2 flex flex-row flex-nowrap items-center justify-start text-left gap-x-2"
-                  href="/profile"
+                <button className="hover:cursor-pointer duration-200 transition-all hover:scale-110 hover:text-white">
+                  <TransitionLink
+                    className="py-3 px-2 flex flex-row flex-nowrap items-center justify-start text-left gap-x-2"
+                    href="/profile"
+                  >
+                    <IoPersonCircle className="md:text-lg sm:text-base text-sm" />
+                    { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm capitalize">{ session.user.username }</p> }
+                  </TransitionLink>
+                </button>
+
+                <button
+                  type="submit"
+                  onClick={ () => signOut() }
+                  className="absolute bottom-1 py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 text-red-700"
                 >
-                  <IoPersonCircle size={ 25 } />
-                  { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm capitalize">{ session.user.username }</p> }
-                </TransitionLink>
-              </button>
-
-              <button
-                type="submit"
-                onClick={ () => signOut() }
-                className="absolute bottom-1 py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 text-red-700"
-              >
-                <BiSolidDoorOpen className="" size={ 25 } />
-                { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Log Out</p> }
-              </button>
+                  <BiSolidDoorOpen className="md:text-lg sm:text-base text-sm " />
+                  { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Log Out</p> }
+                </button>
+              </div>
             </div>
-          </div>
-          <div
-            onClick={ isSidebarOpen ? closeSidebar : openSidebar }
-            className={ `sidebar-control ${isSidebarOpen && "rotate-180"
-              } flex items-center justify-center hover:scale-150 cursor-pointer text-[2rem] transition-all duration-200 text-[#476687df] hover:text-[#476687]` }
-          >
-            <FaCaretRight />
-          </div>
+
+            {/* <div
+              onClick={ isSidebarOpen ? closeSidebar : openSidebar }
+              className={ `sidebar-control ${isSidebarOpen && "rotate-180"
+              } z-50 left-0 top-1/2 inset-y-1/2 flex items-center justify-center hover:scale-150 cursor-pointer text-[2rem] transition-all duration-200 text-[#476687df] hover:text-[#476687]` }
+              >
+              <FaCaretRight />
+              </div> */}
+          </section>
 
           { uploadPopUp && (
-            <section className="absolute top-0 left-0 w-screen h-screen bg-black/80 backdrop-blur z-30">
+            <section className="absolute top-0 left-0 right-0 w-screen h-screen bg-black/80 backdrop-blur z-[100]">
               <div className="relative flex flex-col gap-7 h-[50%] items-center justify-center">
                 <div className="mb-8 flex flex-col gap-y-3 items-center text-white">
                   <h2 className="font-extrabold">Choose What To Upload</h2>
@@ -166,7 +172,7 @@ export default function Sidebar() {
               </div>
             </section>
           ) }
-        </section>
+        </>
       );
     }
   }

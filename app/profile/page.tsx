@@ -205,8 +205,8 @@ export default function ProfilePage() {
   if (session) {
     if (session?.user) {
       return (
-        <div className='p-2 h-[85vh] overflow-hidden'>
-          <div className='p-1 h-[85vh] overflow-y-auto'>
+        <div className='p-2 h-[80vh] overflow-x-hidden overflow-y-auto flex items-center justify-center'>
+          <div className='p-1 md:w-[60%] w-[80%] h-[80vh]'>
             <form
               onSubmit={ handleProfileUpdate }
               autoComplete="off"

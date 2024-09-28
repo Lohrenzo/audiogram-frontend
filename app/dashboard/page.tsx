@@ -20,17 +20,15 @@ export default function Dashboard() {
     if (session?.user?.is_artist) {
       return (
         <main
-          className={ `${session?.user ? "h-[85vh]" : "h-[100vh]"} overflow-y-hidden overflow-x-hidden p-2 grid grid-cols-2 gap-3 place-items-start` }
+          className={ `${session?.user ? "h-[80vh]" : "h-[100vh]"} overflow-y-hidden overflow-x-hidden p-2 grid md:grid-cols-2 grid-cols-1 gap-3 place-items-start` }
         >
-          {/* <div className="grid grid-cols-2 gap-3 border place-items-start"> */ }
-          <div className="flex flex-col gap-y-4 pb-2 overflow-y-hidden h-[85vh] w-full">
-            <DisplayAlbums fetchType="user" />
-
-            {/* <div className="place-self-center w-full h-[40vh] border border-slate-800 shadow-[#45437086] text-white bg-black/40 backdrop-blur-lg p-2 rounded-lg">
+          <DisplayAlbums fetchType="user" />
+          {/* <div className="flex flex-col gap-y-4 pb-2 overflow-y-hidden h-[85vh] w-full">
+            <div className="place-self-center w-full h-[40vh] border border-slate-800 shadow-[#45437086] text-white bg-black/40 backdrop-blur-lg p-2 rounded-lg">
               <h3 className="mb-1 text-left">Yearly Analytics</h3>
               <LineChart />
-            </div> */}
-          </div>
+            </div>
+          </div> */}
 
           <DisplayUserAudios />
           {/* </div> */ }

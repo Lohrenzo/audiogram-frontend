@@ -9,6 +9,10 @@ import { Suspense } from "react";
 import Loading from "./loading";
 
 import { Toaster } from 'sonner';
+import { FaFaceGrinStars } from "react-icons/fa6";
+import { IoMenu } from "react-icons/io5";
+import Nav from "./components/nav";
+
 
 const inter = Inter({ subsets: ["latin"] });
 const fahkwang = Fahkwang({
@@ -35,12 +39,13 @@ export default async function RootLayout({
     <html lang="en">
       <Provider session={ session }>
         <body
-          className={ `${fahkwang.className} relative flex flex-row max-h-screen overflow-hidden` }
+          className={ `${fahkwang.className} relative flex flex-row gap-x-0 max-h-screen overflow-hidden` }
         >
           <Suspense fallback={ <Loading /> }>
-            { sessionData?.user && <Sidebar /> }
             <main id="main-view" className="w-full h-screen relative transition-all ease-in-out duration-200">
-              <section className={ `${sessionData?.user ? "h-[85vh]" : "h-screen"} mb-1` }>
+              { sessionData?.user && <Sidebar /> }
+              <Nav />
+              <section className={ `${sessionData?.user ? "h-[80vh]" : "h-screen"} mb-1` }>
                 { children }
               </section>
               { sessionData?.user && <Footer /> }
