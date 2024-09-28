@@ -122,7 +122,6 @@ export default function AlbumDetails({ params: { albumId } }: Params) {
                     artist={ song.artist }
                     type="Single"
                     audioFile={ song.audio }
-                    time="00:00"
                   />
                 )) }
               </ul>

@@ -45,11 +45,6 @@ export default function HomePage() {
     <main
       className={ `flex flex-col items-center justify-start p-2 h-[80vh]` }
     >
-      {/* <div className="w-full text-center">
-        <h1 className="w-full text-center mb-2 flex flex-row items-center justify-center gap-3">
-          Welcome{ `, ${session?.user?.username || ""}` } <FaFaceGrinStars />
-        </h1>
-      </div> */}
 
       <div className="h-[240px] w-full">
         <DisplayAlbums fetchType="all" />
@@ -82,7 +77,6 @@ export default function HomePage() {
                 artist={ song.artist }
                 type="Single"
                 audioFile={ song.audio }
-              // time="00:00"
               />
             )) }
           </ul>
