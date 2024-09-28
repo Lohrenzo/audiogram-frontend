@@ -123,7 +123,7 @@ export default function Sidebar() {
                 <button
                   type="submit"
                   onClick={ () => signOut() }
-                  className="absolute bottom-1 py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 text-red-700"
+                  className="absolute md:bottom-4 bottom-16 py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 text-red-700"
                 >
                   <BiSolidDoorOpen className="md:text-lg sm:text-base text-sm " />
                   { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Log Out</p> }
