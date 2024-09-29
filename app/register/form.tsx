@@ -41,34 +41,42 @@ export default function Form() {
     const formData = new FormData(e.currentTarget);
 
     // Convert the boolean checkbox for 'is_artist' correctly
-    if (formData.get('is_artist') === 'on') {
-      formData.set('is_artist', 'true');
-    } else {
-      formData.set('is_artist', 'false');
-    }
+    // if (formData.get('is_artist') === 'on') {
+    //   formData.set('is_artist', 'true');
+    // } else {
+    //   formData.set('is_artist', 'false');
+    // }
 
     // Extract username and password from formData for later use in signIn
     const username = formData.get("username") as string;
     const password = formData.get("password1") as string;
 
-    try {
-      // Attempt to register
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL}auth/register/`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error("Registration Failed!!");
-        throw new Error(errorData?.detail || "Registration failed.");
+    // try {
+    // Attempt to register
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_NEXTAUTH_BACKEND_URL}auth/register/`,
+      {
+        method: "POST",
+        body: formData,
       }
+    );
 
-      const userData = await response.json();
-      console.log("Registration successful:", userData);
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      let errorMessage = "Registration failed.";
+      if (responseData.detail) {
+        errorMessage = responseData.detail;
+      } else if (typeof responseData === 'object') {
+        errorMessage = Object.entries(responseData)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join(', ');
+      }
+      toast.error(errorMessage);
+      setLoading(false);
+      throw new Error(errorMessage);
+    } else {
+      console.log("Registration successful:", responseData);
 
       // Programmatically sign the user in using the returned tokens
       const signInResponse = await signIn("credentials", {
@@ -95,12 +103,30 @@ export default function Form() {
           window.location.href = "/";
         }
       }
-
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error("Registration Failed!!");
       setLoading(false);
     }
+
+    // Attempt to handle response once based on content type
+    // const contentType = response.headers.get("content-type");
+
+    // let responseData;
+
+    // if (contentType?.includes("application/json")) {
+    //   responseData = await response.json();
+    // } else {
+    //   responseData = await response.text(); // In case of HTML error responses
+    // }
+
+    // if (!response.ok) {
+    //   toast.error("Registration Failed!!");
+    //   throw new Error(responseData?.detail || responseData || "Registration failed.");
+    // }
+
+    // } catch (error) {
+    //   console.error("Error submitting form:", error);
+    //   toast.error(`Registration Failed: ${error?.message}`);
+    //   setLoading(false);
+    // }
   };
 
   return (

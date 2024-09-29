@@ -111,6 +111,11 @@ input[type=number] {
 }
 /* Audio List Item Ends */
 
+/* Profile Form Starts */
+.profile-form {
+  grid-template-columns: 1fr 2fr;
+}
+/* Profile Form Ends */
 
 /* Dark Mode Switch Style Start */
 .switch {

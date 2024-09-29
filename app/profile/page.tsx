@@ -206,19 +206,19 @@ export default function ProfilePage() {
     if (session?.user) {
       return (
         <div className='p-2 h-[80vh] overflow-x-hidden overflow-y-auto flex items-center justify-center'>
-          <div className='p-1 md:w-[60%] w-[80%] h-[80vh]'>
+          <div className='sm:p-1 p-2 md:w-[60%] sm:w-[80%] w-[100%] h-[80vh]'>
             <form
               onSubmit={ handleProfileUpdate }
               autoComplete="off"
-              className='overflow-y-auto overflow-x-hidden grid grid-cols-2'
+              className='overflow-y-auto overflow-x-hidden grid profile-form'
             >
               <h2 className='col-span-2 text-right border-b border-white/30 mt-2 mb-3'>
                 Account
               </h2>
 
-              <label className="py-2 mb-2" htmlFor="username">Username:</label>
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="username">Username:</label>
               <input
-                className='p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 type="text"
                 value={ userDetails.username }
                 name='username'
@@ -227,9 +227,9 @@ export default function ProfilePage() {
                 autoComplete="off"
               />
 
-              <label className="py-2 mb-2" htmlFor="email">Email:</label>
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="email">Email:</label>
               <input
-                className='p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 type="email"
                 value={ userDetails.email }
                 name='email'
@@ -238,9 +238,9 @@ export default function ProfilePage() {
                 autoComplete="off"
               />
 
-              <label className="py-2 mb-2" htmlFor="first_name">First Name:</label>
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="first_name">First Name:</label>
               <input
-                className='p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 type="text"
                 value={ formValues?.first_name }
                 onChange={ handleInputChange }
@@ -250,9 +250,9 @@ export default function ProfilePage() {
                 autoComplete="off"
               />
 
-              <label className="py-2 mb-2" htmlFor="last_name">Last Name:</label>
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="last_name">Last Name:</label>
               <input
-                className='p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 type="text"
                 value={ formValues.last_name ?? "" }
                 onChange={ handleInputChange }
@@ -262,9 +262,9 @@ export default function ProfilePage() {
                 autoComplete="off"
               />
 
-              <label className="py-2 mb-2" htmlFor="dob">Date Of Birth:</label>
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="dob">Date Of Birth:</label>
               <input
-                className='p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 type="date"
                 value={ formValues.dob }
                 onChange={ handleInputChange }
@@ -274,9 +274,9 @@ export default function ProfilePage() {
                 autoComplete="off"
               />
 
-              <label className="py-2 mb-2" htmlFor="bio">Bio:</label>
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="bio">Bio:</label>
               <textarea
-                className='p-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 value={ formValues.bio ?? "" }
                 onChange={ handleInputChange }
                 name='bio'
@@ -287,38 +287,36 @@ export default function ProfilePage() {
               />
 
               {/* <br /> */ }
-              <div className="col-span-2 mx-auto p-4 sm:w-[30%] w-[80%]">
+              <div className="col-span-2 mx-auto py-4 px-3 md:w-[40%] sm:w-[50%] w-[60%]">
                 <SubmitButton content={ isUpdating ? "Submit" : `Edit Profile` } loading={ loading } />
               </div>
             </form>
 
             <h2 className='col-span-2 text-right border-b border-white/30 mb-3'>Password</h2>
-            <form onSubmit={ handlePasswordChange } className="grid grid-cols-2">
-              <label className="py-2 mb-2" htmlFor="old_password">Old Password:</label>
+            <form onSubmit={ handlePasswordChange } className="grid profile-form">
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="old_password">Old Password:</label>
               <input
                 required
-                className='p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 type="password"
-                placeholder="Type in your old password"
+                placeholder="Type in old password"
                 name='old_password'
                 id="old_password"
-                // disabled={ !isPasswordUpdating }
                 autoComplete="off"
               />
 
-              <label className="py-2 mb-2" htmlFor="new_password">New Password:</label>
+              <label className="sm:text-base text-sm py-2 mb-2" htmlFor="new_password">New Password:</label>
               <input
                 required
-                className='p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
+                className='sm:text-base text-sm p-2 mb-2 disabled:cursor-default disabled:opacity-40 active:outline-none focus:outline-none bg-transparent border-b border-slate-800'
                 type="password"
-                placeholder="Type in your new password"
+                placeholder="Type in new password"
                 name='new_password'
                 id="new_password"
-                // disabled={ !isPasswordUpdating }
                 autoComplete="off"
               />
 
-              <div className="col-span-2 mx-auto p-6 sm:w-[30%] w-[80%]">
+              <div className="col-span-2 mx-auto py-6 px-3 md:w-[40%] sm:w-[50%] w-[60%] ">
                 <SubmitButton content="Submit" loading={ passwordLoading } />
               </div>
             </form>

@@ -116,7 +116,7 @@ export default function ListItem({
           loading="lazy"
         />
         <div className="flex flex-col">
-          <TransitionLink href={ `/audio/${id}` } className="w-full font-bold capitalize">{ title }</TransitionLink>
+          <TransitionLink href={ `/audio/${id}` } className="w-full sm:text-base text-[0.9rem] font-bold capitalize">{ title }</TransitionLink>
           <div className="text-sm opacity-50">{ artist }</div>
         </div>
       </div>
@@ -124,22 +124,25 @@ export default function ListItem({
         <p className="sm:inline-block hidden">
           { duration || "00:00" } {/* Show duration or "00:00" */ }
         </p>
-        <div
-          className="hover:bg-white/5 p-2 rounded-full cursor-pointer"
-          onClick={
-            isPlaying
-              ? () => togglePause()
-              : () => togglePlay({ id, cover: src, title, audioFile })
-          }
-        >
-          <Image
-            alt={ isCurrentPlaying ? "Pause" : "Play" }
-            height={ 30 }
-            width={ 30 }
-            src={ isCurrentPlaying ? pauseImage : playImage }
-            className="play"
-            loading="lazy"
-          />
+        <div className="flex items-center justify-center">
+          <div
+            className="hover:bg-white/5 p-2 h-[40px] w-[40px] rounded-full cursor-pointer"
+            onClick={
+              isPlaying
+                ? () => togglePause()
+                : () => togglePlay({ id, cover: src, title, audioFile })
+            }
+          >
+            <Image
+              alt={ isCurrentPlaying ? `Pause ${title}` : `Play ${title}` }
+              title={ isCurrentPlaying ? `Pause ${title}` : `Play ${title}` }
+              height={ 30 }
+              width={ 30 }
+              src={ isCurrentPlaying ? pauseImage : playImage }
+              className="play"
+              loading="lazy"
+            />
+          </div>
         </div>
         <div className="sm:inline-block hidden">
           <p className="">{ type }</p>
