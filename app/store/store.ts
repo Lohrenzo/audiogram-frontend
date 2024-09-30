@@ -14,6 +14,18 @@ export const useIsSidebarOpenStore = create<SidebarStore>()((set) => ({
   closeSidebar: () => set({ isSidebarOpen: false }),
 }));
 
+type PlaylistStore = {
+  createPlaylistPopup: boolean;
+  openCreatePlaylistPopup: () => void;
+  closeCreatePlaylistPopup: () => void;
+};
+
+export const usePlaylistStore = create<PlaylistStore>()((set) => ({
+  createPlaylistPopup: false,
+  openCreatePlaylistPopup: () => set({ createPlaylistPopup: true }),
+  closeCreatePlaylistPopup: () => set({ createPlaylistPopup: false }),
+}));
+
 type AudioStore = {
   audioRef: HTMLAudioElement | null; // Store audio element
   volume: number;

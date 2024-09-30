@@ -15,7 +15,7 @@ export default function Footer() {
       return null;
     } else {
       return (
-        <section className="border border-slate-800 border-b-0 rounded-t-lg bg-black h-[15vh] w-full bottom-0 z-[50] p-2">
+        <section className="border border-slate-800 border-b-0 rounded-t-lg bg-black h-[15vh] w-full bottom-0 z-20 p-2">
           <SongsQueue />
         </section>
       );

@@ -14,6 +14,15 @@ type Props = {
 
 export default function Card({ id, title, date, src, type, artist }: Props) {
 
+  const link = () => {
+    if (type === "album") {
+      return `/album/${id}`;
+    } else if (type === "playlist") {
+      return `/playlist/${id}`
+    } else {
+      return `/audio/${id}`
+    }
+  }
   return (
     <li
       key={ id }
@@ -21,7 +30,7 @@ export default function Card({ id, title, date, src, type, artist }: Props) {
     >
       <TransitionLink
         className="flex flex-col border-slate-500 rounded-md w-[130px]"
-        href={ type === "album" ? `/album/${id}` : `/audio/${id}` }
+        href={ link() }
       >
         <Image
           src={ src }

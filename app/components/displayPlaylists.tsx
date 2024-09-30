@@ -6,15 +6,17 @@ import getAllAlbums from "@/app/lib/getAllAlbums";
 import { useSession } from "next-auth/react";
 import { Suspense, useEffect, useState } from "react";
 import Skeleton from "./skeletons/skeleton";
+import getAllPlaylists from "../lib/getAllPlaylists";
+import getUserPlaylists from "../lib/getUserPlaylists";
 
 type Props = {
   fetchType: "user" | "all"; // Determines whether to fetch user albums or all albums
 };
 
-export default function DisplayAlbums({ fetchType }: Props) {
+export default function DisplayPlaylists({ fetchType }: Props) {
   const { data: session, status } = useSession();
 
-  const [albums, setAlbums] = useState<Album[] | null>([]);
+  const [playlists, setPlaylists] = useState<Playlist[] | null>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
 
@@ -25,11 +27,11 @@ export default function DisplayAlbums({ fetchType }: Props) {
       if (fetchType === "all") {
         (async () => {
           try {
-            const fetchedAlbums = await getAllAlbums(session.access);
-            if (Array.isArray(fetchedAlbums)) {
-              setAlbums(fetchedAlbums);
+            const fetchedPlaylists = await getAllPlaylists();
+            if (Array.isArray(fetchedPlaylists)) {
+              setPlaylists(fetchedPlaylists);
             } else {
-              console.error("Fetched albums is not an array:", fetchedAlbums);
+              console.error("Fetched playlists is not an array:", fetchedPlaylists);
               setError("Invalid data format received");
             }
           } catch (error) {
@@ -41,11 +43,11 @@ export default function DisplayAlbums({ fetchType }: Props) {
       } else if (fetchType === "user") {
         (async () => {
           try {
-            const fetchedAlbums = await getUserAlbums(session.access);
-            if (Array.isArray(fetchedAlbums)) {
-              setAlbums(fetchedAlbums);
+            const fetchedPlaylists = await getUserPlaylists();
+            if (Array.isArray(fetchedPlaylists)) {
+              setPlaylists(fetchedPlaylists);
             } else {
-              console.error("Fetched albums is not an array:", fetchedAlbums);
+              console.error("Fetched playlists is not an array:", fetchedPlaylists);
               setError("Invalid data format received");
             }
           } catch (error) {
@@ -59,7 +61,7 @@ export default function DisplayAlbums({ fetchType }: Props) {
     }
   }, [fetchType, status, session]);
 
-  const heading = fetchType === "user" ? "Your Albums" : "Featured Albums";
+  const heading = fetchType === "user" ? "Your Playlists" : "Featured Playlists";
 
   return (
     <div className="p-2 border border-slate-800 shadow-[#33305daa] bg-black/40 backdrop-blur-lg rounded-lg lg:h-[35vh] w-full">
@@ -85,22 +87,22 @@ export default function DisplayAlbums({ fetchType }: Props) {
         </ul>
       ) : (
         <ul className="display-cards flex flex-row items-start justify-start overflow-x-auto overflow-y-hidden py-2 gap-x-4 w-full">
-          { albums && albums.length > 0 ? (
+          { playlists && playlists.length > 0 ? (
             <>
-              { albums.map((album: Album) => (
+              { playlists.map((playlist: Playlist) => (
                 <Card
-                  key={ album.id }
-                  id={ album.id }
-                  title={ album.title }
-                  src={ album.cover }
-                  artist={ album.artist }
-                  type="album"
-                  date={ album.released }
+                  key={ playlist.id }
+                  id={ playlist.id }
+                  title={ playlist.title }
+                  src={ playlist.audios[0] ? playlist.audios[0].cover : "/img/headphones-mic.jpg" }
+                  artist={ playlist.creator }
+                  type="playlist"
+                  date={ playlist.created }
                 />
               )) }
             </>
           ) : (
-            <p className="min-w-full h-full">No Albums Found !</p>
+            <p className="min-w-full h-full">No Playlists Found !</p>
           ) }
         </ul>
       ) }

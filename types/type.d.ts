@@ -19,6 +19,7 @@ type Playlist = {
   description: string;
   creator: string;
   audios: Song[];
+  created: string;
 };
 
 type Album = {

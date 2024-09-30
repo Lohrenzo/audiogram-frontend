@@ -8,6 +8,7 @@ export const config = {
     "/audio/:path*",
     "/dashboard/:path*",
     "/profile/:path*",
+    "/playlist/:path*",
     "/upload/:path*",
   ],
 };
