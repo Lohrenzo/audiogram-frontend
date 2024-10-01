@@ -9,6 +9,7 @@ import SubmitButton from "@/app/components/submitButton";
 
 import { toast } from 'sonner';
 import Skeleton from "@/app/components/skeletons/skeleton";
+import { redirect } from "next/navigation";
 
 function CreateSinglePage() {
   const [username, setUsername] = useState("");
@@ -58,17 +59,22 @@ function CreateSinglePage() {
 
     const audioTitle = formData.get("title");
 
-    try {
-      if (!jwt) alert("No Jwt Present!!"); // Ensure JWT is available
-      await createAudio(formData, jwt);
-      // setSubmitted(true);
-      window.location.href = "/dashboard"; // Redirect on success
+    if (!jwt) {
+      redirect("/login"); // Ensure JWT is available
+    } else {
+      const res = await createAudio(formData, jwt);
+
+      if (res.code !== 200 || 201) {
+        console.error("Creating audio failed");
+        // alert("Failed to create audio! Please try again.");
+        toast.error("Upload Failed!!")
+        setLoading(false);
+      }
+
       toast.success(`${audioTitle} Uploaded Successfully`)
-    } catch (error) {
-      console.error("Creating audio failed: ", error);
-      // alert("Failed to create audio! Please try again.");
-      toast.error("Upload Failed!!")
-      setLoading(false);
+      // setSubmitted(true);
+      // window.location.href = "/dashboard"; // Redirect on success
+      redirect("/dashboard")
     }
   };
 

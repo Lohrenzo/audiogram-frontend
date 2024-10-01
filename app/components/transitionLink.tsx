@@ -5,6 +5,9 @@ import React, { ReactNode } from "react";
 // import { useRouter } from "next/navigation";
 // import { resolve } from "path";
 
+// zustand
+import { useIsSidebarOpenStore } from "../store/store";
+
 interface TransitionLinkProps extends LinkProps {
     children: ReactNode;
     href: string;
@@ -22,6 +25,8 @@ export default function TransitionLink({
     ...props
 }: TransitionLinkProps) {
     // const router = useRouter()
+    const { closeSidebar } =
+        useIsSidebarOpenStore();
 
     const handleTransition = async (
         // e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -42,7 +47,7 @@ export default function TransitionLink({
     }
     return (
         <Link
-            // onClick={ handleTransition }
+            onClick={ () => { closeSidebar() } }
             className={ className } href={ href } { ...props }>{ children }</Link>
     )
 }

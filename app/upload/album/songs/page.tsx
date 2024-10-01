@@ -75,7 +75,7 @@ export default function Songs4Album() {
                   name="numberOfSongs"
                   id="numberOfSongs"
                 >
-                  { [...Array(9).keys()].map((n) => (
+                  { [...Array(18).keys()].map((n) => (
                     <option key={ n + 1 } value={ n + 1 }>
                       { n + 1 }
                     </option>

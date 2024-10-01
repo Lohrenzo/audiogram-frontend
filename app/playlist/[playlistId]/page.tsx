@@ -58,7 +58,7 @@ export default function PlaylistDetailsPage({ params: { playlistId } }: Params) 
                 : playlistDetails?.audios && playlistDetails.audios.length > 0 ? (
                     <div className="w-full h-full mt-2">
                         <h3 className="text-xl font-bold mb-2 text-center w-full">{ playlistDetails.audios.length > 1 ? "Tracks" : "Track" }</h3>
-                        <ul className="space-y-2 overflow-y-auto h-[inherit] px-2">
+                        <ul className="space-y-2 overflow-y-auto overflow-x-hidden h-[inherit] px-2">
                             { playlistDetails.audios.map((song) => (
                                 <ListItem
                                     key={ song.id }

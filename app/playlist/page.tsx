@@ -70,7 +70,9 @@ export default function PlaylistPage() {
                     </div>
 
                     { createPlaylistPopup &&
-                        <div className="absolute top-0 left-0 w-screen h-screen z-30 px-4 bg-black/75 backdrop-blur overflow-hidden">
+                        <div
+                            className="absolute top-0 left-0 w-screen h-screen z-30 px-4 bg-black/75 backdrop-blur overflow-hidden"
+                        >
                             <div className="h-[12vh] flex items-center justify-between">
                                 <h2>Create playlist</h2>
                                 <button

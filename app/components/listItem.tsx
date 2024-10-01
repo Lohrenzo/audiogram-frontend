@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 // zustand
-import { useAudioStore } from "../store/store";
+import { useAudioStore, usePlaylistStore } from "../store/store";
 
 import playImage from "../../public/img/icons/play.png";
 import pauseImage from "../../public/img/icons/pause.png";
@@ -31,6 +31,7 @@ export default function ListItem({
   // time,
 }: Props) {
   const { isPlaying, togglePause, togglePlay, enQueue, nowPlaying } = useAudioStore();
+  const { addToPlaylistPopup, openAddToPlaylistPopup } = usePlaylistStore();
   const [optionsPop, setOptionsPop] = useState(false);
   const [duration, setDuration] = useState<string | null>(null); // State to store the audio duration
   const audioRef = useRef<HTMLAudioElement>(null); // Ref to access the audio element
@@ -101,6 +102,7 @@ export default function ListItem({
   }
 
   const addToPlaylist = () => {
+    openAddToPlaylistPopup(id)
     setOptionsPop(false)
   }
 

@@ -13,17 +13,18 @@ export default async function createAudio(
     }
   );
 
-  if (!res.ok) {
+  if (res.status !== 200 && res.status !== 201) {
     const contentType = res.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       const errorDetails = await res.json();
       throw new Error(errorDetails.message || "Failed to create audio");
     } else {
-      throw new Error("Failed to create audio");
+      throw new Error("Failed to create audio!!");
     }
   }
 
-  const message = await res.text(); // Server returns a plain text message
+  const message = (await res.text()) || (await res.json());
+  const code = res.status;
   console.log(message);
-  return message;
+  return { message, code };
 }

@@ -18,12 +18,21 @@ type PlaylistStore = {
   createPlaylistPopup: boolean;
   openCreatePlaylistPopup: () => void;
   closeCreatePlaylistPopup: () => void;
+  addToPlaylistPopup: boolean;
+  audioIdToAddToPlaylist: null | number;
+  openAddToPlaylistPopup: (audioId: number) => void;
+  closeAddToPlaylistPopup: () => void;
 };
 
 export const usePlaylistStore = create<PlaylistStore>()((set) => ({
   createPlaylistPopup: false,
   openCreatePlaylistPopup: () => set({ createPlaylistPopup: true }),
   closeCreatePlaylistPopup: () => set({ createPlaylistPopup: false }),
+  addToPlaylistPopup: false,
+  audioIdToAddToPlaylist: null,
+  openAddToPlaylistPopup: (audioId) =>
+    set({ addToPlaylistPopup: true, audioIdToAddToPlaylist: audioId }),
+  closeAddToPlaylistPopup: () => set({ addToPlaylistPopup: false }),
 }));
 
 type AudioStore = {
