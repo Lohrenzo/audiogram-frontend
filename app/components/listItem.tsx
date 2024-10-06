@@ -82,19 +82,14 @@ export default function ListItem({
     }
   }, []);
 
-  // console.log("Duration:", duration)
-
-  // function secondsToTime(seconds: any) {
-  //   //const hours = Math.floor(seconds / 3600);
-  //   const minutes = Math.floor((seconds % 3600) / 60);
-  //   const remainingSeconds = seconds % 60;
-
-  //   //const formattedHours = String(hours).padStart(2, "0");
-  //   const formattedMinutes = String(minutes).padStart(1, "0");
-  //   const formattedSeconds = String(remainingSeconds).padStart(2, "0");
-
-  //   return `${formattedMinutes}:${formattedSeconds}`;
-  // }
+  const handlePlay = () => {
+    const song = { id, cover: src, title, artist, audioFile };
+    if (isPlaying && nowPlaying?.id === id) {
+      togglePause();
+    } else {
+      togglePlay(song);
+    }
+  };
 
   const addToQueue = () => {
     enQueue({ id, cover: src, title, artist, audioFile })
@@ -129,10 +124,7 @@ export default function ListItem({
         <div className="flex items-center justify-center">
           <div
             className="hover:bg-white/5 p-2 h-[40px] w-[40px] rounded-full cursor-pointer"
-            onClick={
-              isPlaying
-                ? () => togglePause()
-                : () => togglePlay({ id, cover: src, title, audioFile })
+            onClick={ handlePlay
             }
           >
             <Image

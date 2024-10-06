@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { axiosAuth } from "../lib/axios";
 
 type SidebarStore = {
   isSidebarOpen: boolean;
@@ -47,33 +48,86 @@ type AudioStore = {
   togglePause: () => void;
   queue: any[];
   enQueue: (song: any) => void;
+  playNext: () => void;
+  // streamCountSent: boolean;
+  // setStreamCountSent: (sent: boolean) => void;
 };
 
 export const useAudioStore = create<AudioStore>()((set, get) => ({
   audioRef: null,
   volume: 50,
-  setVolume: (volume: number) => set({ volume }),
+  setVolume: (volume: number) => {
+    const { audioRef } = get();
+
+    set({ volume });
+    if (audioRef) {
+      audioRef.volume = volume / 100;
+    }
+  },
   isPlaying: false,
   setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
+  // streamCountSent: false,
+  // setStreamCountSent: (sent: boolean) => set({ streamCountSent: sent }),
   nowPlaying: null,
   setNowPlaying: (nowPlaying: any) => {
-    const { audioRef, isPlaying } = get();
+    const { audioRef } = get();
+
+    const handleTimeUpdate = () => {
+      if (newAudio.currentTime > newAudio.duration / 2 && !streamCountSent) {
+        axiosAuth
+          .post("rev/stream", { audio: nowPlaying.id })
+          .then(() => {
+            streamCountSent = true;
+          })
+          .catch((error) =>
+            console.error("Error sending stream count:", error)
+          );
+      }
+    };
 
     if (audioRef) {
       // Stop current playing song if any
       audioRef.pause();
+      audioRef.removeEventListener("ended", get().playNext);
+      audioRef.removeEventListener("timeupdate", handleTimeUpdate);
     }
 
     // Create a new audio element with the selected song
     const newAudio = new Audio(nowPlaying.audioFile);
     newAudio.volume = get().volume / 100;
 
+    let streamCountSent = false;
+
+    newAudio.addEventListener("ended", get().playNext);
+    newAudio.addEventListener("timeupdate", handleTimeUpdate);
+    // newAudio.addEventListener("ended", () => {
+    //   get().playNext();
+    // });
+
+    // newAudio.addEventListener("timeupdate", () => {
+    //   if (
+    //     newAudio.currentTime > newAudio.duration / 2 &&
+    //     !get().streamCountSent
+    //   ) {
+    //     axiosAuth
+    //       .post("rev/stream", { audio: nowPlaying.id })
+    //       .then(() => setStreamCountSent(true))
+    //       .catch((error) =>
+    //         console.error("Error sending stream count:", error)
+    //       );
+    //   }
+    // });
+
     newAudio.play(); // Play the new song
 
-    set({ nowPlaying, audioRef: newAudio, isPlaying: true });
+    set({
+      nowPlaying,
+      audioRef: newAudio,
+      isPlaying: true,
+    });
   },
   togglePlay: (song: any) => {
-    const { audioRef, isPlaying, nowPlaying, enQueue } = get();
+    const { audioRef, isPlaying, nowPlaying, enQueue, setNowPlaying } = get();
 
     // enqueue the song
     enQueue(song);
@@ -89,7 +143,7 @@ export const useAudioStore = create<AudioStore>()((set, get) => ({
       }
     } else {
       // If a different song is selected, set it as the new playing song
-      get().setNowPlaying(song);
+      setNowPlaying(song);
     }
   },
   togglePause: () => {
@@ -101,11 +155,28 @@ export const useAudioStore = create<AudioStore>()((set, get) => ({
   },
   queue: [],
   enQueue: (song: any) => {
-    const { queue } = get();
-    const isSongInQueue = queue.some((item) => item.id === song.id);
+    const { queue, nowPlaying, setNowPlaying } = get();
 
-    if (!isSongInQueue) {
-      set({ queue: [...queue, song] });
+    if (!nowPlaying) {
+      set({ nowPlaying: song });
+      // setNowPlaying(song);
+    } else {
+      const isSongInQueue = queue.some((item) => item.id === song.id);
+
+      if (!isSongInQueue) {
+        set({ queue: [...queue, song] });
+      }
+    }
+  },
+  playNext: () => {
+    const { queue, audioRef } = get();
+    if (queue.length > 0) {
+      const nextSong = queue[0];
+      set({ queue: queue.slice(1) });
+      get().setNowPlaying(nextSong);
+    } else {
+      audioRef?.pause();
+      set({ nowPlaying: null, isPlaying: false });
     }
   },
 }));

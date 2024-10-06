@@ -13,7 +13,7 @@ export default async function getAudioDetails(audioId: string | number) {
 
     return data;
   } catch (error) {
-    console.error("Failed to load albums details:", error);
+    console.error("Failed to load audio details:", error);
     throw error;
   }
 }

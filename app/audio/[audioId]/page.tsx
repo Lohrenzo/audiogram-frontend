@@ -8,11 +8,11 @@ import Unauthorized from "../../unauthorized";
 import Loading from "../../loading";
 
 // zustand
-import { useIsSidebarOpenStore } from "../../store/store";
+import { useIsSidebarOpenStore, useAudioStore } from "../../store/store";
 
 // Icons
-import playImage from "../../../public/img/icons/play.png";
-import pauseImage from "../../../public/img/icons/pause.png";
+import playIcon from "../../../public/img/icons/play.png";
+import pauseIcon from "../../../public/img/icons/pause.png";
 
 
 import getAudioDetails from "@/app/lib/getAudioDetails";
@@ -21,6 +21,7 @@ import Error from "@/app/error";
 import humanizeDate from "@/app/lib/humanizeDate";
 import Skeleton from "@/app/components/skeletons/skeleton";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import getAudioStreamCount from "@/app/lib/getAudioStreamCount";
 
 type Params = {
     params: {
@@ -31,7 +32,9 @@ type Params = {
 export default function AudioDetails({ params: { audioId } }: Params) {
     const { data: session, status } = useSession();
     const { isSidebarOpen } = useIsSidebarOpenStore();
+    const { isPlaying, nowPlaying, togglePause, togglePlay } = useAudioStore();
     const [audioDetails, setAudioDetails] = useState<Song>();
+    const [streamCount, setStreamCount] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<any>(null);
 
@@ -40,7 +43,9 @@ export default function AudioDetails({ params: { audioId } }: Params) {
             (async () => {
                 try {
                     const fetchedAudio = await getAudioDetails(audioId);
+                    const fetchedStreamCount = await getAudioStreamCount(audioId);
                     setAudioDetails(fetchedAudio);
+                    setStreamCount(fetchedStreamCount.stream_count)
                 } catch (error) {
                     setError(error);
                 } finally {
@@ -49,6 +54,7 @@ export default function AudioDetails({ params: { audioId } }: Params) {
             })();
         }
     }, [audioId, status, session])
+
 
     if (status === "loading") return <Loading />;
 
@@ -61,6 +67,22 @@ export default function AudioDetails({ params: { audioId } }: Params) {
     if (session && !session?.user) {
         return <Unauthorized />;
     }
+
+    const handlePlayPause = () => {
+        if (isPlaying && nowPlaying?.id === audioId) {
+            // If the current audio is playing, pause it
+            togglePause();
+        } else {
+            // Play this audio
+            togglePlay({
+                id: audioId,
+                cover: audioDetails?.cover,
+                title: audioDetails?.title,
+                artist: audioDetails?.artist,
+                audioFile: audioDetails?.audio,
+            });
+        }
+    };
 
     return (
         <main
@@ -80,12 +102,15 @@ export default function AudioDetails({ params: { audioId } }: Params) {
                                     priority
                                 />
                                 <div className="absolute grid place-items-center invisible group-hover:visible top-0 left-0 transition-all duration-150 ease-in-out h-[300px] w-full bg-black/35 backdrop-blur">
-                                    <div className="cursor-pointer grid place-items-center h-[90px] w-[90px] p-3 bg-black/60 rounded-full">
+                                    <div
+                                        onClick={ handlePlayPause }
+                                        className="cursor-pointer grid place-items-center h-[90px] w-[90px] p-3 bg-black/60 rounded-full"
+                                    >
                                         <Image
                                             className="object-cover object-center"
                                             loading="lazy"
                                             alt={ `play ${audioDetails?.title}` }
-                                            src={ playImage }
+                                            src={ isPlaying ? pauseIcon : playIcon }
                                             width={ 60 }
                                             height={ 60 }
                                         // priority
@@ -113,6 +138,10 @@ export default function AudioDetails({ params: { audioId } }: Params) {
                             { loading ? <Skeleton height="1rem" width="50%" variant="" />
                                 : humanizeDate(audioDetails?.released as string) }
                         </p>
+                        { loading
+                            ? <Skeleton height="2.4rem" width="100%" variant="border border-slate-800 rounded-lg p-2 shadow font-bold w-full" />
+                            : <p className="text-center border border-slate-800 text-slate-300 rounded-lg p-2 shadow font-bold w-full">{ streamCount || 0 } Plays</p>
+                        }
                         { loading ? <Skeleton height="38px" width="110px" variant="absolute top-2 right-4 bg-white/40 backdrop-blur p-2 rounded-xl" />
                             : <p className="absolute top-2 right-4 bg-white/40 backdrop-blur p-2 rounded-xl font-bold text-black text-sm">
                                 { audioDetails?.genre }
@@ -121,7 +150,8 @@ export default function AudioDetails({ params: { audioId } }: Params) {
                     </div>
                 </div>
             </div>
-            { audioDetails?.artist === session.user.username &&
+            {
+                audioDetails?.artist === session.user.username &&
                 <div className="absolute left-2 top-2 flex flex-col gap-1 place-items-center">
                     <div className="p-2 bg-black/90 text-white cursor-pointer">
                         <AiFillEdit />
@@ -131,6 +161,6 @@ export default function AudioDetails({ params: { audioId } }: Params) {
                     </div>
                 </div>
             }
-        </main>
+        </main >
     )
 }

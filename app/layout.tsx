@@ -3,7 +3,7 @@ import { Inter, Cutive_Mono, Fahkwang } from "next/font/google";
 import "./globals.css";
 import Provider from "./context/provider";
 import Sidebar from "./components/sidebar";
-import Footer from "./components/footer";
+import Player from "./components/player";
 import { getServerSession } from "next-auth";
 import { Suspense } from "react";
 import Loading from "./loading";
@@ -48,7 +48,7 @@ export default async function RootLayout({
               <section className={ `${sessionData?.user ? "h-[80vh]" : "h-screen"} mb-1` }>
                 { children }
               </section>
-              { sessionData?.user && <Footer /> }
+              { sessionData?.user && <section className="absolute bottom-0 left-0 right-0 h-[15vh] w-full z-20"><Player /></section> }
             </main>
             <Toaster expand position="top-right" theme="system" richColors />
           </Suspense>

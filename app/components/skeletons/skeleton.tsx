@@ -13,6 +13,6 @@ export default function Skeleton({ width, height, variant }: Props) {
     }
 
     return (
-        <div className={ `skeleton ${variant}` } style={ style }></div>
+        <p className={ `skeleton ${variant}` } style={ style }></p>
     )
 }

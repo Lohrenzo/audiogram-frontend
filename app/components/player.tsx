@@ -1,24 +1,67 @@
 "use client";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+
+// Icons
+import { IoMdSkipForward } from "react-icons/io";
 import playIcon from "../../public/img/icons/play.png";
+import pauseIcon from "../../public/img/icons/pause.png";
 
-import SongsQueue from "./songsQueue";
+// zustand
+import { useAudioStore } from "../store/store";
+import { useEffect } from "react";
+import Image from "next/image";
 
-export default function Footer() {
+export default function Player() {
   const { data: session } = useSession();
+  const { queue, nowPlaying, isPlaying, playNext } = useAudioStore();
   const pathname = usePathname();
   // const items = Array.from({ length: 15 });
+
+  useEffect(() => {
+    console.log("Queue: ", queue)
+  }, [queue])
+
+  const handleNext = () => {
+    if (queue.length > 0) {
+      playNext();
+      console.log("Next Clicked!!")
+    }
+  }
 
   if (session) {
     if (pathname === "/login" || pathname === "/register") {
       return null;
     } else {
-      return (
-        <section className="border border-slate-800 border-b-0 rounded-t-lg bg-black h-[15vh] w-full bottom-0 z-20 p-2">
-          <SongsQueue />
-        </section>
-      );
+      if (isPlaying) {
+        return (
+          <section
+            style={ {
+              backgroundImage: `linear-gradient(40deg, #080810f2, #000000ee), url(${nowPlaying.cover})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            } }
+            className={ `flex flex-col justify-center items-center gap-2 border border-slate-800 border-b-0 rounded-t-lg w-full min-h-full p-2` }
+          >
+            <div className="flex flex-nowrap items-center justify-center gap-x-5">
+              <Image
+                alt={ isPlaying ? `Pause ${nowPlaying?.title}` : `Play ${nowPlaying?.title}` }
+                title={ isPlaying ? `Pause ${nowPlaying?.title}` : `Play ${nowPlaying?.title}` }
+                height={ 30 }
+                width={ 30 }
+                src={ isPlaying ? pauseIcon : playIcon }
+                className="play"
+                loading="lazy"
+              />
+              <IoMdSkipForward className={ `${queue.length == 0 ? "opacity-25 cursor-not-allowed" : "opacity-100 cursor-pointer"}` } onClick={ handleNext } size={ 25 } />
+            </div>
+            <h3 className="text-center">
+              { nowPlaying?.title || "" }
+            </h3>
+            {/* <SongsQueue /> */ }
+          </section>
+        );
+      } else return null
     }
   } else return null;
 }

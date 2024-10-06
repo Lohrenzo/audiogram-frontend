@@ -63,8 +63,8 @@ export default function AlbumDetails({ params: { albumId } }: Params) {
       className={ `
         relative w-full transition-all ease-in-out duration-200 flex h-[85vh] flex-col items-center justify-start p-2` }
     >
-      <div className="flex flex-col gap-0 w-full h-full overflow-hidden">
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-4 h-[300px]">
+      <div className="flex flex-col gap-0 w-full h-full overflow-x-hidden md:overflow-y-hidden">
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-4 md:h-[300px]">
           { loading ? <Skeleton height="300px" width="100%" variant="" />
             : albumDetails?.cover && (
               <Image
@@ -79,7 +79,7 @@ export default function AlbumDetails({ params: { albumId } }: Params) {
           }
 
           <div className="flex flex-col gap-2 items-start justify-between text-left h-[300px]">
-            <h1 className="w-full px-2 text-4xl font-bold">
+            <h1 className="w-full px-2 md:text-4xl text-3xl font-bold">
               { loading ? <Skeleton height="100%" width="100%" variant="" />
                 : albumDetails?.title }
             </h1>
