@@ -64,7 +64,7 @@ function CreateSinglePage() {
     } else {
       const res = await createAudio(formData, jwt);
 
-      if (res.code !== 200 || 201) {
+      if (res.code !== 200 && res.code !== 201) {
         console.error("Creating audio failed");
         // alert("Failed to create audio! Please try again.");
         toast.error("Upload Failed!!")
@@ -74,6 +74,7 @@ function CreateSinglePage() {
       toast.success(`${audioTitle} Uploaded Successfully`)
       // setSubmitted(true);
       // window.location.href = "/dashboard"; // Redirect on success
+      setLoading(false);
       redirect("/dashboard")
     }
   };
