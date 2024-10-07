@@ -66,7 +66,7 @@ export default function PlaylistDetailsPage({ params: { playlistId } }: Params) 
                                     title={ song.title }
                                     src={ song.cover }
                                     artist={ song.artist }
-                                    type="Single"
+                                    type="Track"
                                     audioFile={ song.audio }
                                 />
                             )) }

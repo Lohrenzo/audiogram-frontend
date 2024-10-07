@@ -51,7 +51,23 @@ export default async function RootLayout({
               </section>
               { sessionData?.user && <section className="absolute bottom-0 left-0 right-0 h-[15vh] w-full z-20"><Player /></section> }
             </main>
-            <Toaster expand position="top-right" theme="system" richColors />
+            <Toaster
+              expand
+              position="top-right"
+              theme="system"
+              // closeButton
+              // richColors
+              toastOptions={ {
+                unstyled: true,
+                classNames: {
+                  toast: "p-2 border border-slate-800 bg-white/10 backdrop-blur-lg rounded-lg flex items-center justify-center",
+                  error: 'bg-red-600 text-white-400',
+                  success: 'text-[#48a9c5]',
+                  warning: 'text-yellow-400',
+                  info: 'bg-blue-400',
+                },
+              } }
+            />
           </Suspense>
         </body>
       </Provider>

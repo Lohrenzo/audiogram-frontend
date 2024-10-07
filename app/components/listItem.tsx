@@ -141,7 +141,7 @@ export default function ListItem({
           </div>
         </div>
         <div className="sm:inline-block hidden">
-          <p className="">{ type }</p>
+          <p className="text-xs text-gray-400">{ type }</p>
         </div>
         <div className="cursor-pointer"
           onClick={ () => setOptionsPop(!optionsPop) }

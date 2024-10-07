@@ -65,7 +65,7 @@ export default function Songs4Album() {
     if (session?.user?.is_artist) {
       return (
         <main className="w-full h-[85vh] pe-3 overflow-y-auto">
-          <h2 className="mb-3 capitalize">{ albumName }</h2>
+          <h2 className="mb-3 capitalize p-2 w-full text-center">{ albumName }</h2>
           { !showForms ? (
             <div>
               <form onSubmit={ handleNumberChange }>
@@ -108,7 +108,7 @@ export default function Songs4Album() {
                   </div>
                 )) }
               </div>
-              <div className="w-full text-center">
+              <div className="w-full text-center mb-3">
                 <Link className="text-center hover:underline hover:scale-110 duration-200 transition-all ease-in-out" href="/dashboard">Complete</Link>
               </div>
             </>
