@@ -60,6 +60,7 @@ function CreateSinglePage() {
     const audioTitle = formData.get("title");
 
     if (!jwt) {
+      window.location.href = "/login";
       redirect("/login"); // Ensure JWT is available
     } else {
       const res = await createAudio(formData, jwt);
@@ -73,9 +74,9 @@ function CreateSinglePage() {
 
       toast.success(`${audioTitle} Uploaded Successfully`)
       // setSubmitted(true);
-      // window.location.href = "/dashboard"; // Redirect on success
+      window.location.href = "/dashboard";
       setLoading(false);
-      redirect("/dashboard")
+      // redirect("/dashboard")
     }
   };
 

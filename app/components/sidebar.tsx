@@ -24,7 +24,7 @@ import { FaCaretRight, FaAnglesDown } from "react-icons/fa6";
 import { RiDashboard3Fill } from "react-icons/ri";
 
 import Image from "next/image";
-import logo from "../../public/img/wave.png";
+import logo from "../../public/img/audiogram-removebg.png";
 import { useState } from "react";
 
 // zustand
@@ -48,7 +48,7 @@ export default function Sidebar() {
           <section
             // className={ `${!isSidebarOpen ? "lg:w-[9vw] md:w-[8vw] w-[5vw] md:inline-block hidden translate-x-[-40vw]" : "lg:w-[20vw] md:w-[20vw] w-[20vw] translate-x-0"
             className={ `${!isSidebarOpen ? "md:left-[-25rem] left-[-18rem]" : "left-0"
-              } absolute bottom-0 md:w-[25vw] sm:w-[15vw] w-[40vw] p-2 overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-50 h-[95vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
+              } absolute bottom-0 md:w-[25vw] sm:w-[35vw] w-[40vw] p-2 overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-50 h-[95vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
           // } relative p-2 min-w-[7.4rem] lg:max-w-[22vw] md:max-w-[25vw] max-w-[30vw] overflow-y-hidden overflow-x-hidden transition-all ease-in-out duration-300 z-10 h-[100vh] flex sm:flex md:flex flex-row items-center gap-0 justify-start text-gray-400` }
           >
             <div
@@ -59,7 +59,7 @@ export default function Sidebar() {
                   href="/"
                   className="flex flex-row items-center justify-start sm:gap-x-2 gap-x-1"
                 >
-                  <div className="bg-[#476687e9] rounded-full lg:p-2 p-1 lg:w-10 lg:h-10 md:w-7 md:h-7 h-6 w-6">
+                  <div className="bg-gray-400 rounded-xl pt-[1px] p-0 lg:w-10 lg:h-10 md:w-7 md:h-7 h-6 w-6">
                     <Image
                       src={ logo }
                       alt="Audiogram Logo"
@@ -134,15 +134,15 @@ export default function Sidebar() {
                   </TransitionLink>
                 </button>
 
+                <button
+                  onClick={ () => signOut() }
+                  className="md:absolute md:bottom-4 bottom-16 py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 text-red-700"
+                >
+                  <BiSolidDoorOpen className="md:text-lg sm:text-base text-sm " />
+                  { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Log Out</p> }
+                </button>
               </div>
 
-              <button
-                onClick={ () => signOut() }
-                className="absolute md:bottom-4 bottom-16 py-3 px-2 flex flex-row items-center justify-start text-left gap-x-2 hover:cursor-pointer duration-200 transition-all hover:scale-110 text-red-700"
-              >
-                <BiSolidDoorOpen className="md:text-lg sm:text-base text-sm " />
-                { isSidebarOpen && <p className="md:text-lg sm:text-base text-sm">Log Out</p> }
-              </button>
 
             </div>
 

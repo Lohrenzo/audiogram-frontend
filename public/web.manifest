@@ -1,0 +1,38 @@
+{
+  "name": "Audiogram",
+  "short_name": "Audiogram",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "start_url": "/",
+  "id": "audioGram",
+  "display": "standalone",
+  "description": "A new app for music lovers 🎧. Very easy to use, and will soon become your new fave 😁. The music is within you 😎",
+  "scope": "/",
+  "icons": [
+    {
+      "purpose": "any",
+      "src": "img/audiogram-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/audiogram-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/screenshot-narrow-audiogram.png",
+      "type": "image/png",
+      "sizes": "348x756",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "img/screenshot-wide-audiogram.png",
+      "type": "image/png",
+      "sizes": "1920x863",
+      "form_factor": "wide"
+    }
+  ]
+}

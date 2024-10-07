@@ -10,6 +10,7 @@ import { SlOptions } from "react-icons/sl";
 import { useEffect, useRef, useState } from "react";
 import TransitionLink from "./transitionLink";
 import secondsToTime from "../lib/secondsToTime";
+import { toast } from "sonner";
 
 type Props = {
   id: number;
@@ -93,6 +94,7 @@ export default function ListItem({
 
   const addToQueue = () => {
     enQueue({ id, cover: src, title, artist, audioFile })
+    toast.success(`${title} added to queue`);
     setOptionsPop(false)
   }
 

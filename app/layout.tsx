@@ -24,6 +24,7 @@ const fahkwang = Fahkwang({
 export const metadata: Metadata = {
   title: "Audiogram",
   description: "The music is within you.",
+  manifest: "/web.manifest",
 };
 
 export default async function RootLayout({
